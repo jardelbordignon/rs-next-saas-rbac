@@ -1,0 +1,15 @@
+{
+  "editor.tabSize": 2,
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.insertFinalNewline": "explicit",
+    "source.formatDocument": "explicit",
+    "source.fixAll.eslint": "explicit"
+  },
+  "files.autoSave": "onFocusChange",
+  "tailwindCSS.experimental.classRegex": [
+    ["clsx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+  ],
+  "material-icon-theme.activeIconPack": "nest",
+  "prismaERDPreviewer.preferredTheme": "dark"
+}

@@ -3,7 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "license": "MIT",
-  "publishConfig": {
-    "access": "public"
+  "files": [
+    "bun.json, next.json, react.json"
+  ],
+  "devDependencies": {    
+    "typescript": "5.8.2"
   }
 }
