@@ -11,5 +11,7 @@
     ["clsx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
   ],
   "material-icon-theme.activeIconPack": "nest",
-  "prismaERDPreviewer.preferredTheme": "dark"
+  "material-icon-theme.folders.associations": {
+    "authorizations": "Secure",
+  }
 }
