@@ -1,0 +1,19 @@
+{
+  "name": "@repo/backend",
+  "version": "0.0.0",
+  "scripts": {
+    "lint": "eslint . --fix --max-warnings 0",
+    "start": "bun src/index.ts",
+    "dev": "bun --watch src/index.ts"
+  },
+  "dependencies": {
+    "@repo/authorizations": "*",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "*",
+    "@repo/prettier-config": "*",
+    "@repo/typescript-config": "*",
+    "@types/bun": "^1.2.5"
+  }
+}
