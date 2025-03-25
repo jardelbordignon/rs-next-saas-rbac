@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import cors from '@fastify/cors'
 import { fastify } from 'fastify'
 import {
@@ -6,6 +7,7 @@ import {
   serializerCompiler,
   validatorCompiler,
 } from 'fastify-type-provider-zod'
+import { env } from '@/env'
 import { routes } from './resources/routes'
 
 const app = fastify().withTypeProvider<ZodTypeProvider>()
@@ -25,10 +27,18 @@ app.get('/', async () => {
 
 app
   .listen({
-    port: 4000,
+    host: '0.0.0.0',
+    port: env.PORT,
   })
   .then(() => {
-    console.log('HTTP Server Running!')
+    const address = app.server.address()
+    if (address && typeof address === 'object') {
+      const url = `http://${address.address}:${address.port}`
+
+      console.info(`HTTP Server Running: ${url}`)
+    } else {
+      console.info(`HTTP Server Running! Address: ${address}`)
+    }
   })
 
 //
