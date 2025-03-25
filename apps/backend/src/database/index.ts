@@ -7,4 +7,4 @@ const client = new Pool({
   max: 1,
 })
 
-export const database = drizzle({ client })
+export const database = drizzle({ client, logger: env.NODE_ENV === 'development' })
