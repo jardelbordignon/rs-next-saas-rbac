@@ -9,11 +9,23 @@ export async function createUserController(fastify: FastifyInstance) {
     '/signup',
     {
       schema: {
+        summary: 'Create user',
+        tags: ['Users'],
+        response: {
+          201: z.object({}),
+          409: z.object({
+            error: z.string().default('Conflict'),
+            message: z
+              .string()
+              .default('User with email johndoe@email.com already exists'),
+            status: z.number().default(409),
+          }),
+        },
         body: z.object({
           name: z.string(),
           email: z.string().email(),
           password: z.string().min(6),
-          avatarUrl: z.string().url().optional(),
+          avatar_url: z.string().url().optional(),
         }),
       },
     },
