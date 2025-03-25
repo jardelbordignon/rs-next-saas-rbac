@@ -31,7 +31,8 @@ export async function createUserController(fastify: FastifyInstance) {
     },
     async (request, reply) => {
       try {
-        await createUserService(request.body)
+        const { email, name, avatar_url: avatarUrl, password } = request.body
+        await createUserService({ email, name, avatarUrl, password })
         return reply.status(201).send()
       } catch (error) {
         const err = error as Error

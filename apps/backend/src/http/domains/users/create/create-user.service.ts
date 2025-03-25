@@ -1,18 +1,18 @@
 import { hash } from 'bcryptjs'
-import { eq } from 'drizzle-orm'
+import { and, eq, or } from 'drizzle-orm'
 import { database } from '@/database'
-import { type InsertUser, users } from '@/database/schema'
+import { type InsertUser, members, organizations, users } from '@/database/schema'
 import { ConflictError } from '@/http/errors'
 
 export type CreateUserServiceDto = Omit<InsertUser, 'id' | 'passwordHash'> & {
   password: string
-  avatar_url?: string
+  avatarUrl?: string
 }
 
 export async function createUserService({
   email,
   name,
-  avatar_url,
+  avatarUrl,
   password,
 }: CreateUserServiceDto) {
   const [userWithSameEmail] = await database
@@ -25,14 +25,41 @@ export async function createUserService({
     throw new ConflictError(`User with email ${email} already exists`)
   }
 
-  const passwordHash = await hash(password, 7)
+  return database.transaction(async tx => {
+    const [user] = await tx
+      .insert(users)
+      .values({
+        name,
+        email,
+        passwordHash: await hash(password, 7),
+        avatarUrl,
+      })
+      .returning()
 
-  const user = await database.insert(users).values({
-    name,
-    email,
-    passwordHash,
-    avatarUrl: avatar_url,
+    const domain = email.split('@')[1]
+
+    const [autoJoinOrganization] = await tx
+      .select({ id: organizations.id })
+      .from(organizations)
+      .where(
+        and(
+          or(
+            eq(organizations.domain, domain),
+            eq(organizations.domain, `http://${domain}`),
+            eq(organizations.domain, `https://${domain}`),
+          ),
+          eq(organizations.shouldAttachUsersByDomain, true),
+        ),
+      )
+      .limit(1)
+
+    if (autoJoinOrganization) {
+      await tx.insert(members).values({
+        organizationId: autoJoinOrganization.id,
+        userId: user.id,
+      })
+    }
+
+    return user
   })
-
-  return user
 }
