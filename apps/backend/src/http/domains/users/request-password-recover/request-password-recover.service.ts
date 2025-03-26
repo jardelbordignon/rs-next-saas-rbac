@@ -3,7 +3,7 @@ import { database } from '@/database'
 import { tokens, users } from '@/database/schema'
 
 export async function requestPasswordRecoverService(email: string) {
-  const [userFromEmail] = await database
+  const [userByEmail] = await database
     .select({
       id: users.id,
       name: users.name,
@@ -15,13 +15,13 @@ export async function requestPasswordRecoverService(email: string) {
     .limit(1)
 
   // We don't want people to know if the user really exists or not
-  if (!userFromEmail) return
+  if (!userByEmail) return
 
   const [token] = await database
     .insert(tokens)
     .values({
       type: 'PASSWORD_RECOVER',
-      userId: userFromEmail.id,
+      userId: userByEmail.id,
     })
     .returning({ code: tokens.id })
 

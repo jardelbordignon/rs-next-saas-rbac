@@ -13,30 +13,27 @@ export async function authByCredentialsService(
   jwt: FastifyInstance['jwt'],
   { email, password }: Credentials,
 ) {
-  const [userFromEmail] = await database
+  const [userByEmail] = await database
     .select({ id: users.id, passwordHash: users.passwordHash })
     .from(users)
     .where(eq(users.email, email))
     .limit(1)
 
-  if (!userFromEmail) {
+  if (!userByEmail) {
     throw new UnauthorizedError('Invalid credentials')
   }
 
-  if (!userFromEmail.passwordHash) {
+  if (!userByEmail.passwordHash) {
     throw new BadRequestError('User does not have a password, use social login')
   }
 
-  const passwordMatch = await Bun.password.verify(
-    password,
-    userFromEmail.passwordHash,
-  )
+  const passwordMatch = await Bun.password.verify(password, userByEmail.passwordHash)
 
   if (!passwordMatch) {
     throw new UnauthorizedError('Invalid credentials')
   }
 
   return {
-    accessToken: jwt.sign({ sub: userFromEmail.id }),
+    accessToken: jwt.sign({ sub: userByEmail.id }),
   }
 }

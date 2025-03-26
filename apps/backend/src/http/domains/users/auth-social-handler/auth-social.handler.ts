@@ -25,13 +25,13 @@ export async function authSocialHandler(
   }
 
   return await database.transaction(async tx => {
-    const [userFromEmail] = await tx
+    const [userByEmail] = await tx
       .select()
       .from(users)
       .where(eq(users.email, email))
       .limit(1)
 
-    let user = userFromEmail
+    let user = userByEmail
 
     if (!user) {
       const [newUser] = await tx
