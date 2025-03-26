@@ -12,6 +12,7 @@ import {
 } from 'fastify-type-provider-zod'
 import { env } from '@/env'
 import { routes } from './domains/routes'
+import { errorsHandler } from './errors-handler'
 
 const app = fastify().withTypeProvider<ZodTypeProvider>()
 
@@ -26,6 +27,8 @@ app.register(jwt, {
   secret: env.JWT_SECRET,
   sign: { expiresIn: env.JWT_EXPIRES_IN },
 })
+
+app.setErrorHandler(errorsHandler)
 
 const routePrefix = '/docs'
 const isNotProd = env.NODE_ENV !== 'production'

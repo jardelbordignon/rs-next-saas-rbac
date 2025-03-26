@@ -1,5 +1,4 @@
 import { z } from 'zod'
-import { NotFoundError } from '@/http/errors'
 import { getProfileService } from './get-profile.service'
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
@@ -27,19 +26,9 @@ export async function getProfileController(fastify: FastifyInstance) {
       },
     },
     async (request, reply) => {
-      try {
-        const { sub } = await request.jwtVerify<{ sub: string }>()
-        const result = await getProfileService(sub)
-        return reply.status(200).send(result)
-      } catch (error) {
-        const err = error as Error
-        if (err instanceof NotFoundError) {
-          return reply.status(err.status).send({ message: err.message })
-        }
-        return reply
-          .status(500)
-          .send({ message: err.message || 'Internal Server Error' })
-      }
+      const { sub } = await request.jwtVerify<{ sub: string }>()
+      const result = await getProfileService(sub)
+      return reply.status(200).send(result)
     },
   )
 }

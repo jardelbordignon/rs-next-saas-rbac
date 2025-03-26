@@ -1,5 +1,4 @@
 import { z } from 'zod'
-import { BadRequestError, UnauthorizedError } from '@/http/errors'
 import { authByCredentialsService } from './auth-by-credentials.service'
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
@@ -31,18 +30,8 @@ export async function authByCredentialsController(fastify: FastifyInstance) {
       },
     },
     async (request, reply) => {
-      try {
-        const result = await authByCredentialsService(fastify.jwt, request.body)
-        return reply.status(200).send(result)
-      } catch (error) {
-        const err = error as Error
-        if (err instanceof UnauthorizedError || err instanceof BadRequestError) {
-          return reply.status(err.status).send({ message: err.message })
-        }
-        return reply
-          .status(500)
-          .send({ message: err.message || 'Internal Server Error' })
-      }
+      const result = await authByCredentialsService(fastify.jwt, request.body)
+      return reply.status(200).send(result)
     },
   )
 }
