@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import cors from '@fastify/cors'
+import jwt from '@fastify/jwt'
 import swagger, { type FastifyDynamicSwaggerOptions } from '@fastify/swagger'
 import swaggerUI from '@fastify/swagger-ui'
 import { fastify } from 'fastify'
@@ -19,6 +20,11 @@ app.setSerializerCompiler(serializerCompiler)
 
 app.register(cors, {
   origin: true,
+})
+
+app.register(jwt, {
+  secret: env.JWT_SECRET,
+  sign: { expiresIn: env.JWT_EXPIRES_IN },
 })
 
 const routePrefix = '/docs'
