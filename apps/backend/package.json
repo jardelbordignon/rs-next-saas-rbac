@@ -21,7 +21,6 @@
     "@fastify/swagger-ui": "^5.2.2",
     "@paralleldrive/cuid2": "^2.2.2",
     "@repo/authorizations": "*",
-    "bcryptjs": "^3.0.2",
     "dotenv": "^16.4.7",
     "drizzle-orm": "^0.40.1",
     "drizzle-zod": "^0.7.0",

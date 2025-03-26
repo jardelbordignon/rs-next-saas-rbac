@@ -1,4 +1,3 @@
-import { hash } from 'bcryptjs'
 import { and, eq, or } from 'drizzle-orm'
 import { database } from '@/database'
 import { type InsertUser, members, organizations, users } from '@/database/schema'
@@ -31,7 +30,7 @@ export async function createUserService({
       .values({
         name,
         email,
-        passwordHash: await hash(password, 7),
+        passwordHash: await Bun.password.hash(password),
         avatarUrl,
       })
       .returning()

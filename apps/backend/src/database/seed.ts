@@ -1,5 +1,4 @@
 import { fakerPT_BR as faker } from '@faker-js/faker'
-import { hash } from 'bcryptjs'
 import chalk from 'chalk'
 import { database } from './connection'
 import {
@@ -38,7 +37,7 @@ console.log(chalk.yellow('🧹 Database reset'))
  */
 const usersData: InsertUser[] = []
 
-const passwordHash = await hash('abc@123', 1)
+const passwordHash = await Bun.password.hash('abc@123')
 usersData.push({
   name: 'John Doe',
   email: 'john.doe@acme.com',

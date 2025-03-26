@@ -1,4 +1,3 @@
-import { compare } from 'bcryptjs'
 import { eq } from 'drizzle-orm'
 import { database } from '@/database'
 import { users } from '@/database/schema'
@@ -28,7 +27,10 @@ export async function authByCredentialsService(
     throw new BadRequestError('User does not have a password, use social login')
   }
 
-  const passwordMatch = await compare(password, userFromEmail.passwordHash)
+  const passwordMatch = await Bun.password.verify(
+    password,
+    userFromEmail.passwordHash,
+  )
 
   if (!passwordMatch) {
     throw new UnauthorizedError('Invalid credentials')

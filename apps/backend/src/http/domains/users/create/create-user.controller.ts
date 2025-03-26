@@ -11,7 +11,7 @@ export async function createUserController(fastify: FastifyInstance) {
         summary: 'Create user',
         tags: ['Users'],
         response: {
-          201: z.object({}),
+          201: z.null(),
           409: z.object({
             message: z
               .string()
