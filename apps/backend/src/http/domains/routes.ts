@@ -1,5 +1,6 @@
 import { authByCredentialsController } from './users/auth-by-credentials/auth-by-credentials.controller'
 import { authByGithubController } from './users/auth-by-github/auth-by-github.controller'
+import { authByGoogleController } from './users/auth-by-google/auth-by-google.controller'
 import { createUserController } from './users/create/create-user.controller'
 import { getProfileController } from './users/get-profile/get-profile.controller'
 import { requestPasswordRecoverController } from './users/request-password-recover/request-password-recover.controller'
@@ -13,4 +14,5 @@ export function routes(app: FastifyInstance) {
   app.register(requestPasswordRecoverController)
   app.register(requestPasswordResetController)
   app.register(authByGithubController)
+  app.register(authByGoogleController)
 }
