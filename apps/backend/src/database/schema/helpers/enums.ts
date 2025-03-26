@@ -4,6 +4,8 @@ export const roleEnum = pgEnum('Role', ['ADMIN', 'MEMBER', 'BILLING'])
 export const accountProviderEnum = pgEnum('AccountProvider', ['GITHUB'])
 export const tokenTypeEnum = pgEnum('TokenType', ['PASSWORD_RECOVER'])
 
+export type AccountProvider = (typeof accountProviderEnum)['enumValues'][number]
+
 // export enum ForeignKeys {
 //   'USER_ACCOUNTS' = 'user_accounts_fk',
 //   'USER_TOKENS' = 'user_tokens_fk',

@@ -5,7 +5,7 @@ import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 
 export async function authByCredentialsController(fastify: FastifyInstance) {
   fastify.withTypeProvider<ZodTypeProvider>().post(
-    '/signin',
+    '/signin/credentials',
     {
       schema: {
         summary: 'Authenticate user by credentials',

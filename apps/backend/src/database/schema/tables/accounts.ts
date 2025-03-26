@@ -16,7 +16,9 @@ export const accounts = pgTable(
       onDelete: 'cascade',
     }),
   },
-  table => [unique('account_unique_provider_account_id').on(table.providerAccountId)],
+  table => [
+    unique('account_unique_provider_and_user_id').on(table.provider, table.userId),
+  ],
 )
 
 export const accountsRelations = relations(accounts, ({ one }) => ({
