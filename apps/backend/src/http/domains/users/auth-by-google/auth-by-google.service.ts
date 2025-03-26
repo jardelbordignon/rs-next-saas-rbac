@@ -33,7 +33,6 @@ export async function authByGoogleService(
   }
 
   const { access_token }: GoogleOAuthResponse = await googleOAuthResponse.json()
-  console.log('access_token:', access_token)
 
   const googleUserUrl = new URL('https://www.googleapis.com/oauth2/v1/userinfo')
   googleUserUrl.searchParams.append('alt', 'json')
@@ -42,7 +41,6 @@ export async function authByGoogleService(
   const googleUseResponse = await fetch(googleUserUrl)
 
   const googleUserData: GoogleUserResponse = await googleUseResponse.json()
-  console.log('googleUserData:', googleUserData)
 
   const { email, id, name, picture: avatarUrl } = googleUserData
 

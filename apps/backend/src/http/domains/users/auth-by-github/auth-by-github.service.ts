@@ -31,7 +31,6 @@ export async function authByGithubService(
   }
 
   const githubOAuthData: GithubOAuthResponse = await githubOAuthResponse.json()
-  // console.log('githubOAuthData', githubOAuthData)
 
   const githubUserResponse = await fetch('https://api.github.com/user', {
     headers: {
@@ -44,7 +43,6 @@ export async function authByGithubService(
   }
 
   const githubUserData: GithubUserResponse = await githubUserResponse.json()
-  // console.log('githubUserData', githubUserData)
 
   const { avatar_url: avatarUrl, email, id, name } = githubUserData
 
