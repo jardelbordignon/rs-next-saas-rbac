@@ -1,4 +1,6 @@
 import { createOrganizationController } from './organizations/create/create-organization.controller'
+import { findManyOrganizationController } from './organizations/find-many/find-many-organization.controller'
+import { findOneOrganizationController } from './organizations/find-one/find-one-organization.controller'
 import { getMembershipController } from './organizations/get-membership/get-membership.controller'
 import { authByCredentialsController } from './users/auth-by-credentials/auth-by-credentials.controller'
 import { authByFacebookController } from './users/auth-by-facebook/auth-by-facebook.controller'
@@ -21,4 +23,6 @@ export function routes(app: FastifyInstance) {
   app.register(authByGoogleController)
   app.register(createOrganizationController)
   app.register(getMembershipController)
+  app.register(findOneOrganizationController)
+  app.register(findManyOrganizationController)
 }
