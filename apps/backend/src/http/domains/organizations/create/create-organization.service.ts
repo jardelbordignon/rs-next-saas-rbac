@@ -13,6 +13,20 @@ export async function createOrganizationService(
   userId: string,
   { name, domain, shouldAttachUsersByDomain }: CreateOrganizationServiceDto,
 ) {
+  const slug = slugify(name)
+
+  const [organizationBySlug] = await database
+    .select({ id: organizations.id })
+    .from(organizations)
+    .where(eq(organizations.slug, slug))
+    .limit(1)
+
+  if (organizationBySlug) {
+    throw new ConflictError(
+      'An organization already exists with the generated slug, try another name',
+    )
+  }
+
   if (domain) {
     const [organizationByDomain] = await database
       .select({ id: organizations.id })
@@ -30,7 +44,7 @@ export async function createOrganizationService(
       .insert(organizations)
       .values({
         name,
-        slug: slugify(name),
+        slug,
         domain,
         shouldAttachUsersByDomain,
         ownerId: userId,
