@@ -1,5 +1,4 @@
-import { eq } from 'drizzle-orm'
-import { database } from '@/database'
+import { database, eq } from '@/database'
 import { tokens, users } from '@/database/schema'
 import { UnauthorizedError } from '@/http/errors'
 

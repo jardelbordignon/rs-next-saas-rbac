@@ -1,5 +1,4 @@
-import { and, eq, or } from 'drizzle-orm'
-import { database } from '@/database'
+import { and, database, eq, or } from '@/database'
 import { type InsertUser, members, organizations, users } from '@/database/schema'
 import { ConflictError } from '@/http/errors'
 

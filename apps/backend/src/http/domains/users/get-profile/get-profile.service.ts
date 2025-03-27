@@ -1,5 +1,4 @@
-import { eq } from 'drizzle-orm'
-import { database } from '@/database'
+import { database, eq } from '@/database'
 import { users } from '@/database/schema'
 import { NotFoundError } from '@/http/errors'
 

@@ -1,5 +1,4 @@
-import { eq } from 'drizzle-orm'
-import { database } from '@/database'
+import { database, eq } from '@/database'
 import { members, organizations } from '@/database/schema'
 import { ConflictError } from '@/http/errors'
 import { slugify } from '@/utils/slugify'

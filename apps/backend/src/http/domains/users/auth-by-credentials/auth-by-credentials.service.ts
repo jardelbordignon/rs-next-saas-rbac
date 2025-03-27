@@ -1,5 +1,4 @@
-import { eq } from 'drizzle-orm'
-import { database } from '@/database'
+import { database, eq } from '@/database'
 import { users } from '@/database/schema'
 import { BadRequestError, UnauthorizedError } from '@/http/errors'
 import type { FastifyInstance } from 'fastify'

@@ -1,5 +1,4 @@
-import { eq } from 'drizzle-orm'
-import { database } from '@/database'
+import { database, eq } from '@/database'
 import { tokens, users } from '@/database/schema'
 
 export async function requestPasswordRecoverService(email: string) {
