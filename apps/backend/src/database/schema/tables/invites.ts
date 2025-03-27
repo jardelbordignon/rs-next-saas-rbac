@@ -45,5 +45,6 @@ export const invitesRelations = relations(invites, ({ one }) => ({
 }))
 
 export type InsertInvite = z.infer<typeof insertInviteSchema>
+export type SelectInvite = z.infer<typeof selectInviteSchema>
 export const insertInviteSchema = createInsertSchema(invites)
 export const selectInviteSchema = createSelectSchema(invites)

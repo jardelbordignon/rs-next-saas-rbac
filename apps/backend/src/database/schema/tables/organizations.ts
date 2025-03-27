@@ -33,5 +33,6 @@ export const organizationsRelations = relations(organizations, ({ one, many }) =
 }))
 
 export type InsertOrganization = z.infer<typeof insertOrganizationSchema>
+export type SelectOrganization = z.infer<typeof selectOrganizationSchema>
 export const insertOrganizationSchema = createInsertSchema(organizations)
 export const selectOrganizationSchema = createSelectSchema(organizations)

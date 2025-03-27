@@ -33,5 +33,6 @@ export const projectsRelations = relations(projects, ({ one }) => ({
 }))
 
 export type InsertProject = z.infer<typeof insertProjectSchema>
+export type SelectProject = z.infer<typeof selectProjectSchema>
 export const insertProjectSchema = createInsertSchema(projects)
 export const selectProjectSchema = createSelectSchema(projects)

@@ -24,5 +24,6 @@ export const tokensRelations = relations(tokens, ({ one }) => ({
 }))
 
 export type InsertToken = z.infer<typeof insertTokenSchema>
+export type SelectToken = z.infer<typeof selectTokenSchema>
 export const insertTokenSchema = createInsertSchema(tokens)
 export const selectTokenSchema = createSelectSchema(tokens)

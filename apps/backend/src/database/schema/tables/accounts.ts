@@ -29,5 +29,6 @@ export const accountsRelations = relations(accounts, ({ one }) => ({
 }))
 
 export type InsertAccount = z.infer<typeof insertAccountSchema>
+export type SelectAccount = z.infer<typeof selectAccountSchema>
 export const insertAccountSchema = createInsertSchema(accounts)
 export const selectAccountSchema = createSelectSchema(accounts)
