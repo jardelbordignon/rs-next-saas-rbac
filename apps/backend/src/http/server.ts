@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import cors from '@fastify/cors'
 import jwt from '@fastify/jwt'
-import swagger, { type FastifyDynamicSwaggerOptions } from '@fastify/swagger'
+import swagger from '@fastify/swagger'
 import swaggerUI from '@fastify/swagger-ui'
 import { fastify } from 'fastify'
 import {
@@ -10,6 +10,7 @@ import {
   serializerCompiler,
   validatorCompiler,
 } from 'fastify-type-provider-zod'
+import { SwaggerTheme, SwaggerThemeNameEnum } from 'swagger-themes'
 import { env } from '@/env'
 import { routes } from './domains/routes'
 import { errorsHandler } from './errors-handler'
@@ -34,7 +35,7 @@ const routePrefix = '/docs'
 const isNotProd = env.NODE_ENV !== 'production'
 
 if (isNotProd) {
-  const swaggerOptions: FastifyDynamicSwaggerOptions = {
+  app.register(swagger, {
     openapi: {
       info: {
         title: 'SaaS API',
@@ -55,10 +56,14 @@ if (isNotProd) {
       },
     },
     transform: jsonSchemaTransform,
-  }
+  })
 
-  app.register(swagger, swaggerOptions)
-  app.register(swaggerUI, { routePrefix })
+  const content = new SwaggerTheme().getBuffer(SwaggerThemeNameEnum.DARK)
+
+  app.register(swaggerUI, {
+    routePrefix,
+    theme: { css: [{ filename: 'theme.css', content }] },
+  })
 }
 
 routes(app)
