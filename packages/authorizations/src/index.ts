@@ -37,5 +37,11 @@ export function defineAbilityFor(user: User) {
 
   permissions[user.role](user, builder)
 
-  return builder.build({ detectSubjectType: subject => subject.__typename })
+  const ability = builder.build({ detectSubjectType: subject => subject.__typename })
+
+  // Resolve -> TypeError: undefined is not an object (evaluating 'this.can')
+  ability.can = ability.can.bind(ability)
+  ability.cannot = ability.cannot.bind(ability)
+
+  return ability
 }
