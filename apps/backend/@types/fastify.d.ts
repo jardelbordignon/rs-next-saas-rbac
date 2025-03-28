@@ -4,8 +4,10 @@ import 'fastify'
 declare module 'fastify' {
   export interface FastifyRequest {
     getCurrentUserId(): Promise<string>
-    getUserMembership(
-      _slug: string,
-    ): Promise<{ organization: SelectOrganization; membership: SelectMember }>
+    getUserMembership(_slug: string): Promise<{
+      userId: string
+      organization: SelectOrganization
+      membership: SelectMember
+    }>
   }
 }
