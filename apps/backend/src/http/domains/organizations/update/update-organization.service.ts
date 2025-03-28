@@ -1,4 +1,4 @@
-import { organizationSchema, userSchema } from '@repo/authorizations'
+import { organizationSchema } from '@repo/authorizations'
 import { and, database, eq, ne } from '@/database'
 import {
   type SelectMember,
