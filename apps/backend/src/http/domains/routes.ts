@@ -1,3 +1,4 @@
+import { changeOrganizationOwnerController } from './organizations/change-owner/change-organization-owner.controller'
 import { createOrganizationController } from './organizations/create/create-organization.controller'
 import { deleteOrganizationController } from './organizations/delete/delete-organization.controller'
 import { findManyOrganizationController } from './organizations/find-many/find-many-organization.controller'
@@ -29,4 +30,5 @@ export function routes(app: FastifyInstance) {
   app.register(findManyOrganizationController)
   app.register(updateOrganizationController)
   app.register(deleteOrganizationController)
+  app.register(changeOrganizationOwnerController)
 }
