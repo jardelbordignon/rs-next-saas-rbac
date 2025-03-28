@@ -1,8 +1,8 @@
 import { type FastifyInstance } from 'fastify'
 import { fastifyPlugin } from 'fastify-plugin'
-import { database, eq } from '@/database'
+import { and, database, eq } from '@/database'
 import { members, organizations } from '@/database/schema'
-import { UnauthorizedError } from '../errors'
+import { NotFoundError, UnauthorizedError } from '../errors'
 
 export const auth = fastifyPlugin(async (app: FastifyInstance) => {
   app.addHook('preHandler', async request => {
@@ -18,11 +18,25 @@ export const auth = fastifyPlugin(async (app: FastifyInstance) => {
     request.getUserMembership = async (slug: string) => {
       const userId = await request.getCurrentUserId()
 
+      const [organizationBySlug] = await database
+        .select()
+        .from(organizations)
+        .where(eq(organizations.slug, slug))
+        .limit(1)
+
+      if (!organizationBySlug) {
+        throw new NotFoundError('Organization not found by this slug')
+      }
+
       const [membership] = await database
         .select()
         .from(members)
-        .where(eq(members.userId, userId))
-        .innerJoin(organizations, eq(organizations.slug, slug))
+        .where(
+          and(
+            eq(members.userId, userId),
+            eq(members.organizationId, organizationBySlug.id),
+          ),
+        )
         .limit(1)
 
       if (!membership) {
@@ -30,8 +44,9 @@ export const auth = fastifyPlugin(async (app: FastifyInstance) => {
       }
 
       return {
-        organization: membership.organizations,
-        membership: membership.members,
+        userId,
+        organization: organizationBySlug,
+        membership,
       }
     }
   })
