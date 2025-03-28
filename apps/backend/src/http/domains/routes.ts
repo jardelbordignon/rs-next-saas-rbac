@@ -1,4 +1,5 @@
 import { createOrganizationController } from './organizations/create/create-organization.controller'
+import { deleteOrganizationController } from './organizations/delete/delete-organization.controller'
 import { findManyOrganizationController } from './organizations/find-many/find-many-organization.controller'
 import { findOneOrganizationController } from './organizations/find-one/find-one-organization.controller'
 import { getMembershipController } from './organizations/get-membership/get-membership.controller'
@@ -27,4 +28,5 @@ export function routes(app: FastifyInstance) {
   app.register(findOneOrganizationController)
   app.register(findManyOrganizationController)
   app.register(updateOrganizationController)
+  app.register(deleteOrganizationController)
 }

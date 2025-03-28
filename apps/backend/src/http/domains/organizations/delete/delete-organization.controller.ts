@@ -1,19 +1,19 @@
 import { z } from 'zod'
 import { auth } from '@/http/middlewares'
-import { updateOrganizationService } from './update-organization.service'
+import { deleteOrganizationService } from './delete-organization.service'
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 
-export async function updateOrganizationController(fastify: FastifyInstance) {
+export async function deleteOrganizationController(fastify: FastifyInstance) {
   fastify
     .withTypeProvider<ZodTypeProvider>()
     .register(auth)
-    .put(
+    .delete(
       '/organizations/:slug',
       {
         schema: {
           tags: ['Organizations'],
-          summary: 'Update an organization',
+          summary: 'Delete an organization',
           security: [{ bearerAuth: [] }],
           params: z.object({
             slug: z.string(),
@@ -21,21 +21,9 @@ export async function updateOrganizationController(fastify: FastifyInstance) {
           response: {
             204: z.null(),
             401: z.object({
-              message: z
-                .string()
-                .default('You are not allowed to update this organization'),
-            }),
-            409: z.object({
-              message: z
-                .string()
-                .default('An organization already exists with this domain'),
+              message: z.string(),
             }),
           },
-          body: z.object({
-            name: z.string(),
-            domain: z.string().optional(),
-            shouldAttachUsersByDomain: z.boolean().optional(),
-          }),
         },
       },
       async (request, reply) => {
@@ -43,10 +31,9 @@ export async function updateOrganizationController(fastify: FastifyInstance) {
         const { membership, organization, userId } =
           await request.getUserMembership(slug)
 
-        await updateOrganizationService({
+        await deleteOrganizationService({
           userId,
           membership: { membership, organization },
-          data: request.body,
         })
 
         return reply.status(204).send()
