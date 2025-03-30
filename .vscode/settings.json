@@ -14,5 +14,18 @@
   "material-icon-theme.activeIconPack": "nest",
   "material-icon-theme.folders.associations": {
     "authorizations": "Secure",
+  },
+  "rest-client.environmentVariables": {
+    "development": {
+      "apiUrl": "http://localhost:4000",
+      "email": "joao@alfa.com",
+      "password": "123qwe"
+    }
+    // "homolog": {
+    //   "apiUrl": "https://your-hml-api.com"
+    // },
+    // "production": {
+    //   "apiUrl": "https://your-prd-api.com"
+    // }
   }
 }
