@@ -1,11 +1,11 @@
-import { database } from '@/database'
+import { database, eq } from '@/database'
 import {
   type InsertProject,
   type SelectMember,
   type SelectOrganization,
   projects,
 } from '@/database/schema'
-import { UnauthorizedError } from '@/http/errors'
+import { ConflictError, UnauthorizedError } from '@/http/errors'
 import { type MakeOptional, getUserPermissions, slugify } from '@/utils'
 
 type Membership = {
@@ -14,7 +14,10 @@ type Membership = {
   membership: SelectMember
 }
 
-export type CreateProjectData = MakeOptional<InsertProject, 'slug'>
+export type CreateProjectData = MakeOptional<
+  Omit<InsertProject, 'organizationId' | 'ownerId'>,
+  'slug'
+>
 
 export async function createProjectService(
   { membership, organization, userId }: Membership,
@@ -26,11 +29,26 @@ export async function createProjectService(
     throw new UnauthorizedError('You are not allowed to create new projects')
   }
 
+  const projectSlug = slugify(slug ?? name)
+
+  const [projectBySlug] = await database
+    .select({ id: projects.id })
+    .from(projects)
+    .where(eq(projects.slug, projectSlug))
+    .limit(1)
+
+  if (projectBySlug) {
+    const message = slug
+      ? 'A project with this slug already exists. Try another slug or try generate from project name'
+      : 'A project with this generated slug already exists. Try another project name or enter a custom slug'
+    throw new ConflictError(message)
+  }
+
   const [project] = await database
     .insert(projects)
     .values({
       name,
-      slug: slugify(slug ?? name),
+      slug: projectSlug,
       description,
       avatarUrl,
       isPrivate,

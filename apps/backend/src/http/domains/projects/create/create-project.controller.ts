@@ -13,29 +13,33 @@ export async function createProjectController(fastify: FastifyInstance) {
       '/organizations/:slug/projects',
       {
         schema: {
-          summary: 'Create project',
+          summary: 'Create a project of an organization',
           tags: ['Projects'],
           response: {
             201: z.object({
               projectId: z.string(),
             }),
-            409: z.object({
+            401: z.object({
               message: z
                 .string()
-                .default('Project with email johndoe@email.com already exists'),
+                .default('You are not allowed to create new projects'),
             }),
           },
           params: z.object({
             slug: z.string(),
           }),
-          body: insertProjectSchema.omit({ slug: true }),
+          body: insertProjectSchema
+            .pick({ name: true, description: true, avatarUrl: true, isPrivate: true })
+            .extend({
+              slug: z.string().optional(),
+            }),
         },
       },
       async (request, reply) => {
         const { slug } = request.params
         const userMembership = await request.getUserMembership(slug)
-        await createProjectService(userMembership, request.body)
-        return reply.status(201).send()
+        const result = await createProjectService(userMembership, request.body)
+        return reply.status(201).send(result)
       },
     )
 }

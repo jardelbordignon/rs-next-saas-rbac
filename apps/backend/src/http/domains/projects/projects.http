@@ -33,6 +33,7 @@ Content-Type: application/json
 
 {
   "name": "Projeto ABC",
+  //"slug": "projeto-abc-2",
   "description": "Descição do projeto ABC",
   "avatar_url": "https://t3.ftcdn.net/jpg/04/52/55/40/360_F_452554046_OysDdSJkAjzouEUv5E1NKvbrSmmS9FAw.jpg"
 }
