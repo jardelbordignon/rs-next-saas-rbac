@@ -1,5 +1,5 @@
 @authorization = Bearer {{login.response.body.accessToken}}
-@slugOfFirstOrganization = {{organizations_where_user_is_member.response.body.$.[0].slug}}
+@slug_of_first_organization = {{organizations_where_user_is_member.response.body.$.[0].slug}}
 
 # autenticado com o usuário default
 # @name login
@@ -21,13 +21,13 @@ Authorization: {{authorization}}
 
 # exibir organização pelo slug
 # @name organization_by_slug
-GET  {{apiUrl}}/organizations/{{slugOfFirstOrganization}}
+GET  {{apiUrl}}/organizations/{{slug_of_first_organization}}
 Authorization: {{authorization}}
 ###
 
 # criar projeto
 # @name create_project
-POST  {{apiUrl}}/organizations/{{slugOfFirstOrganization}}/projects
+POST  {{apiUrl}}/organizations/{{slug_of_first_organization}}/projects
 Authorization: {{authorization}}
 Content-Type: application/json
 
@@ -37,4 +37,10 @@ Content-Type: application/json
   "description": "Descição do projeto ABC",
   "avatar_url": "https://t3.ftcdn.net/jpg/04/52/55/40/360_F_452554046_OysDdSJkAjzouEUv5E1NKvbrSmmS9FAw.jpg"
 }
+###
+
+# deletar projeto
+# @name delete_project
+DELETE {{apiUrl}}/organizations/{{slug_of_first_organization}}/projects/{{create_project.response.body.projectId}}
+Authorization: {{authorization}}
 ###
