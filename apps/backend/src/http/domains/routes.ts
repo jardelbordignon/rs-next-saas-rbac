@@ -7,6 +7,7 @@ import { getMembershipController } from './organizations/get-membership/get-memb
 import { updateOrganizationController } from './organizations/update/update-organization.controller'
 import { createProjectController } from './projects/create/create-project.controller'
 import { deleteProjectController } from './projects/delete/delete-project.controller'
+import { findOneProjectController } from './projects/find-one/find-one-project.controller'
 import { authByCredentialsController } from './users/auth-by-credentials/auth-by-credentials.controller'
 import { authByFacebookController } from './users/auth-by-facebook/auth-by-facebook.controller'
 import { authByGithubController } from './users/auth-by-github/auth-by-github.controller'
@@ -35,4 +36,5 @@ export function routes(app: FastifyInstance) {
   app.register(changeOrganizationOwnerController)
   app.register(createProjectController)
   app.register(deleteProjectController)
+  app.register(findOneProjectController)
 }

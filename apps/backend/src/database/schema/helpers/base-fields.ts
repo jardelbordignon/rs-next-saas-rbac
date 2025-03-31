@@ -7,6 +7,18 @@ type Props = {
   deleteAt?: boolean
 }
 
+type BaseFields = typeof fields & typeof optionals
+
+const fields = {
+  id: varchar({ length: 30 }).$defaultFn(createId).primaryKey(),
+}
+
+const optionals = {
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }),
+  deletedAt: timestamp('deleted_at', { withTimezone: true }),
+}
+
 /**
  * Returns an object with base fields for a model.
  *
@@ -21,23 +33,17 @@ export const baseFields = ({
   updatedAt = true,
   deleteAt = false,
 }: Props = {}) => {
-  const fields = {
-    id: varchar({ length: 30 }).$defaultFn(createId).primaryKey(),
-  }
-
   if (!onlyId) {
     Object.assign(fields, {
-      createdAt: timestamp('created_at', { withTimezone: true })
-        .notNull()
-        .defaultNow(),
+      createdAt: optionals.createdAt,
       ...(updatedAt && {
-        updatedAt: timestamp('updated_at', { withTimezone: true }),
+        updatedAt: optionals.updatedAt,
       }),
       ...(deleteAt && {
-        deletedAt: timestamp('deleted_at', { withTimezone: true }),
+        deletedAt: optionals.deletedAt,
       }),
     })
   }
 
-  return fields
+  return fields as BaseFields
 }

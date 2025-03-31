@@ -44,3 +44,9 @@ Content-Type: application/json
 DELETE {{apiUrl}}/organizations/{{slug_of_first_organization}}/projects/{{create_project.response.body.projectId}}
 Authorization: {{authorization}}
 ###
+
+# buscar projeto pelo slug
+# @name get_project_by_slug
+GET  {{apiUrl}}/organizations/{{slug_of_first_organization}}/projects/projeto-abc-2
+Authorization: {{authorization}}
+###
