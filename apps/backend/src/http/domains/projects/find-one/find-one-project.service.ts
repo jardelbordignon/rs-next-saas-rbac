@@ -6,7 +6,7 @@ import {
   projects,
   users,
 } from '@/database/schema'
-import { ConflictError, UnauthorizedError } from '@/http/errors'
+import { NotFoundError, UnauthorizedError } from '@/http/errors'
 import { getUserPermissions } from '@/utils'
 
 type Membership = {
@@ -38,7 +38,7 @@ export async function findOneProjectService(
     .limit(1)
 
   if (!projectByOrganizationAndSlug) {
-    throw new ConflictError('Project not found')
+    throw new NotFoundError('Project not found')
   }
 
   const { projects: project, users: owner } = projectByOrganizationAndSlug

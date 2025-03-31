@@ -46,7 +46,13 @@ Authorization: {{authorization}}
 ###
 
 # buscar projeto pelo slug
-# @name get_project_by_slug
+# @name get_project_by_organization_and_slug
 GET  {{apiUrl}}/organizations/{{slug_of_first_organization}}/projects/projeto-abc-2
+Authorization: {{authorization}}
+###
+
+# buscar projetos da organização
+# @name get_projects_by_organization
+GET  {{apiUrl}}/organizations/{{slug_of_first_organization}}/projects
 Authorization: {{authorization}}
 ###
