@@ -1,6 +1,10 @@
 import { relations } from 'drizzle-orm'
 import { boolean, pgTable, varchar } from 'drizzle-orm/pg-core'
-import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
+import {
+  createInsertSchema,
+  createSelectSchema,
+  createUpdateSchema,
+} from 'drizzle-zod'
 import { baseFields } from '../helpers/base-fields'
 import { organizations } from './organizations'
 import { users } from './users'
@@ -34,5 +38,7 @@ export const projectsRelations = relations(projects, ({ one }) => ({
 
 export type InsertProject = z.infer<typeof insertProjectSchema>
 export type SelectProject = z.infer<typeof selectProjectSchema>
+export type UpdateProject = z.infer<typeof updateProjectSchema>
 export const insertProjectSchema = createInsertSchema(projects)
 export const selectProjectSchema = createSelectSchema(projects)
+export const updateProjectSchema = createUpdateSchema(projects)

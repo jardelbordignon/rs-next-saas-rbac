@@ -9,6 +9,7 @@ import { createProjectController } from './projects/create/create-project.contro
 import { deleteProjectController } from './projects/delete/delete-project.controller'
 import { findManyProjectController } from './projects/find-many/find-many-project.controller'
 import { findOneProjectController } from './projects/find-one/find-one-project.controller'
+import { updateProjectController } from './projects/update/update-project.controller'
 import { authByCredentialsController } from './users/auth-by-credentials/auth-by-credentials.controller'
 import { authByFacebookController } from './users/auth-by-facebook/auth-by-facebook.controller'
 import { authByGithubController } from './users/auth-by-github/auth-by-github.controller'
@@ -39,4 +40,5 @@ export function routes(app: FastifyInstance) {
   app.register(deleteProjectController)
   app.register(findOneProjectController)
   app.register(findManyProjectController)
+  app.register(updateProjectController)
 }

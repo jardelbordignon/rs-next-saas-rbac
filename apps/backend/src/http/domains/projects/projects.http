@@ -39,6 +39,24 @@ Content-Type: application/json
 }
 ###
 
+# buscar projetos da primeira organização
+# @name get_projects_by_organization
+GET  {{apiUrl}}/organizations/{{slug_of_first_organization}}/projects
+Authorization: {{authorization}}
+###
+
+# atualizar projeto
+# @name update_project
+PUT {{apiUrl}}/organizations/{{slug_of_first_organization}}/projects/{{get_projects_by_organization.response.body.$.[0].project.id}}
+#{{create_project.response.body.projectId}}
+Authorization: {{authorization}}
+Content-Type: application/json
+
+{
+  "name": "Projeto ABC"
+}
+###
+
 # deletar projeto
 # @name delete_project
 DELETE {{apiUrl}}/organizations/{{slug_of_first_organization}}/projects/{{create_project.response.body.projectId}}
