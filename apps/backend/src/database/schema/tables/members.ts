@@ -38,7 +38,16 @@ export const membersRelations = relations(members, ({ one }) => ({
   }),
 }))
 
-export type InsertMember = z.infer<typeof insertMemberSchema>
-export type SelectMember = z.infer<typeof selectMemberSchema>
 export const insertMemberSchema = createInsertSchema(members)
+export const updateMemberSchema = insertMemberSchema
+  .pick({
+    deletedAt: true,
+    organizationId: true,
+    role: true,
+  })
+  .partial()
 export const selectMemberSchema = createSelectSchema(members)
+
+export type InsertMember = z.infer<typeof insertMemberSchema>
+export type UpdateMember = z.infer<typeof updateMemberSchema>
+export type SelectMember = z.infer<typeof selectMemberSchema>
