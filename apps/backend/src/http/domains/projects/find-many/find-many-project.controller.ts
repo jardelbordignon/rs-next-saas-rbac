@@ -30,7 +30,9 @@ export async function findManyProjectController(fastify: FastifyInstance) {
               }),
             ),
             401: z.object({
-              message: z.string().default('You are not allowed to see this project'),
+              message: z
+                .string()
+                .default('You are not allowed to see organization projects'),
             }),
             404: z.object({
               message: z

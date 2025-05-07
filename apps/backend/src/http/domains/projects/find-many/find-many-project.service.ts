@@ -22,7 +22,7 @@ export async function findManyProjectService({
   const { cannot } = getUserPermissions(userId, membership.role)
 
   if (cannot('get', 'Project')) {
-    throw new UnauthorizedError('You are not allowed to see projects')
+    throw new UnauthorizedError('You are not allowed to see organization projects')
   }
 
   const projectsByOrganization = await database

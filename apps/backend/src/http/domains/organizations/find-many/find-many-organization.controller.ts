@@ -1,3 +1,4 @@
+import { roleSchema } from '@repo/authorizations/src/roles'
 import { z } from 'zod'
 import { selectOrganizationSchema } from '@/database/schema'
 import { auth } from '@/http/middlewares'
@@ -13,7 +14,7 @@ const organizationWithRoleSchema = selectOrganizationSchema
     avatarUrl: true,
   })
   .extend({
-    role: z.string(),
+    role: roleSchema,
   })
 
 export async function findManyOrganizationController(fastify: FastifyInstance) {

@@ -1,3 +1,4 @@
+import { roleSchema } from '@repo/authorizations/src/roles'
 import { z } from 'zod'
 import { auth } from '@/http/middlewares'
 import type { FastifyInstance } from 'fastify'
@@ -21,7 +22,7 @@ export async function getMembershipController(fastify: FastifyInstance) {
             200: z.object({
               membership: z.object({
                 id: z.string(),
-                role: z.enum(['ADMIN', 'MEMBER', 'BILLING']),
+                role: roleSchema,
                 organizationId: z.string(),
               }),
             }),
