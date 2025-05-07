@@ -1,13 +1,16 @@
+name: 'saas_rbac'
 services:
-  postgres:
+  saas_db:
+    container_name: saas_db
     image: bitnami/postgresql:latest
-    container_name: postgres
+    env_file:
+      - .env
     environment:
-      POSTGRES_USER: docker
-      POSTGRES_PASSWORD: docker
-      POSTGRES_DB: saas
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
     ports:
-      - '5432:5432'
+      - '${DATABASE_PORT}:5432'
     networks:
       - saas_network
 

@@ -6,6 +6,7 @@
     "start": "bun src/http/server.ts",
     "dev": "bun --watch src/http/server.ts",
     "db:generate": "bun drizzle-kit generate",
+    "infra": "docker compose up -d && sleep 1 && bun db:migrate && bun db:seed",
     "db:migrate": "bun drizzle-kit migrate",
     "db:push": "bun drizzle-kit push",
     "db:pull": "bun drizzle-kit pull",
