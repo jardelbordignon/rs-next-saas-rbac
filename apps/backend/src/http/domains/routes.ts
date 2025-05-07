@@ -1,3 +1,4 @@
+import { findManyMemberController } from './members/find-many/find-many-member.controller'
 import { changeOrganizationOwnerController } from './organizations/change-owner/change-organization-owner.controller'
 import { createOrganizationController } from './organizations/create/create-organization.controller'
 import { deleteOrganizationController } from './organizations/delete/delete-organization.controller'
@@ -22,13 +23,14 @@ import type { FastifyInstance } from 'fastify'
 
 export function routes(app: FastifyInstance) {
   app.register(createUserController)
-  app.register(authByCredentialsController)
-  app.register(getProfileController)
-  app.register(requestPasswordRecoverController)
-  app.register(requestPasswordResetController)
   app.register(authByFacebookController)
   app.register(authByGithubController)
   app.register(authByGoogleController)
+  app.register(authByCredentialsController)
+  app.register(requestPasswordRecoverController)
+  app.register(requestPasswordResetController)
+  app.register(getProfileController)
+
   app.register(createOrganizationController)
   app.register(getMembershipController)
   app.register(findOneOrganizationController)
@@ -36,9 +38,12 @@ export function routes(app: FastifyInstance) {
   app.register(updateOrganizationController)
   app.register(deleteOrganizationController)
   app.register(changeOrganizationOwnerController)
+
   app.register(createProjectController)
-  app.register(deleteProjectController)
   app.register(findOneProjectController)
   app.register(findManyProjectController)
   app.register(updateProjectController)
+  app.register(deleteProjectController)
+
+  app.register(findManyMemberController)
 }
