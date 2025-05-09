@@ -1,3 +1,4 @@
+import { createInviteController } from './invites/create/create-invite.controller'
 import { findManyMemberController } from './members/find-many/find-many-member.controller'
 import { removeMemberController } from './members/remove/remove-member.controller'
 import { updateMemberController } from './members/update/update-member.controller'
@@ -50,4 +51,6 @@ export function routes(app: FastifyInstance) {
   app.register(findManyMemberController)
   app.register(updateMemberController)
   app.register(removeMemberController)
+
+  app.register(createInviteController)
 }
