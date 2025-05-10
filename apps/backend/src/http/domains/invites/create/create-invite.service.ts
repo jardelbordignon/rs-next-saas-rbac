@@ -1,20 +1,8 @@
 import { and, database, eq } from '@/database'
-import {
-  type InsertInvite,
-  type SelectMember,
-  type SelectOrganization,
-  invites,
-  members,
-  users,
-} from '@/database/schema'
+import { type InsertInvite, invites, members, users } from '@/database/schema'
 import { BadRequestError, ConflictError, UnauthorizedError } from '@/http/errors'
 import { getUserPermissions } from '@/utils'
-
-type Membership = {
-  userId: string
-  organization: SelectOrganization
-  membership: SelectMember
-}
+import type { Membership } from 'fastify'
 
 export type CreateInviteData = Pick<InsertInvite, 'email' | 'role'>
 
