@@ -1,6 +1,10 @@
+import { acceptInviteController } from './invites/accept/accept-invite.controller'
 import { createInviteController } from './invites/create/create-invite.controller'
 import { findManyInviteController } from './invites/find-many/find-many-invite.controller'
 import { findOneInviteController } from './invites/find-one/find-one-invite.controller'
+import { getPendingInviteController } from './invites/get-pending/get-pending-invite.controller'
+import { rejectInviteController } from './invites/reject/reject-invite.controller'
+import { revokeInviteController } from './invites/revoke/revoke-invite.controller'
 import { findManyMemberController } from './members/find-many/find-many-member.controller'
 import { removeMemberController } from './members/remove/remove-member.controller'
 import { updateMemberController } from './members/update/update-member.controller'
@@ -57,4 +61,8 @@ export function routes(app: FastifyInstance) {
   app.register(createInviteController)
   app.register(findOneInviteController)
   app.register(findManyInviteController)
+  app.register(acceptInviteController)
+  app.register(rejectInviteController)
+  app.register(revokeInviteController)
+  app.register(getPendingInviteController)
 }

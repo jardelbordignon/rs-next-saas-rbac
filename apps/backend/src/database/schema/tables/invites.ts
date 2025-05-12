@@ -17,12 +17,11 @@ export const invites = pgTable(
     authorId: varchar('author_id', { length: 30 }).references(() => users.id, {
       onDelete: 'set null',
     }),
-    organizationId: varchar('organization_id', { length: 30 }).references(
-      () => organizations.id,
-      {
+    organizationId: varchar('organization_id', { length: 30 })
+      .notNull()
+      .references(() => organizations.id, {
         onDelete: 'cascade',
-      },
-    ),
+      }),
   },
   table => [
     unique('invite_unique_email_and_organization_id').on(
@@ -44,7 +43,17 @@ export const invitesRelations = relations(invites, ({ one }) => ({
   }),
 }))
 
-export type InsertInvite = z.infer<typeof insertInviteSchema>
-export type SelectInvite = z.infer<typeof selectInviteSchema>
 export const insertInviteSchema = createInsertSchema(invites)
+export const updateInviteSchema = insertInviteSchema
+  .omit({
+    id: true,
+    createdAt: true,
+    updatedAt: true,
+    deletedAt: true,
+  })
+  .partial()
 export const selectInviteSchema = createSelectSchema(invites)
+
+export type InsertInvite = z.infer<typeof insertInviteSchema>
+export type UpdateInvite = z.infer<typeof updateInviteSchema>
+export type SelectInvite = z.infer<typeof selectInviteSchema>
