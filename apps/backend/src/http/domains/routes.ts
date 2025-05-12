@@ -1,3 +1,4 @@
+import { getOrganizationBillingController } from './billing/get-organization-billing.controller'
 import { acceptInviteController } from './invites/accept/accept-invite.controller'
 import { createInviteController } from './invites/create/create-invite.controller'
 import { findManyInviteController } from './invites/find-many/find-many-invite.controller'
@@ -65,4 +66,6 @@ export function routes(app: FastifyInstance) {
   app.register(rejectInviteController)
   app.register(revokeInviteController)
   app.register(getPendingInviteController)
+
+  app.register(getOrganizationBillingController)
 }
