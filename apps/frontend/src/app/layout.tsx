@@ -12,7 +12,7 @@ type Props = Readonly<{
 
 export default function RootLayout({ children }: Props) {
   return (
-    <html lang='en'>
+    <html lang='en' className='dark'>
       <body className={'antialiased'}>{children}</body>
     </html>
   )

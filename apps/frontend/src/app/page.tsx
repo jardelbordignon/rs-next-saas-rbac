@@ -1,3 +1,5 @@
+import { Button } from '@/components/ui'
+
 export default function Home() {
-  return <h1>Home page</h1>
+  return <Button variant='default'>Sign In</Button>
 }
