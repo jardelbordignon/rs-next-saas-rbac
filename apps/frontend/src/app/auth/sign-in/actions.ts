@@ -1,18 +1,33 @@
 'use server'
 
+import { z } from 'zod'
 import { postSigninCredentials } from '@/http/post-signin-credentials'
+import { HTTPError } from 'ky'
 
-export async function singInWithCredentials(prevState: any, data: FormData) {
-  const { email, password } = Object.fromEntries(data)
+const credentialsSchema = z.object({
+  email: z.string().email({ message: 'Please, provide a valid email' }),
+  password: z.string().min(6, { message: 'Please, provide your password' }),
+})
 
-  await new Promise(r => setTimeout(r, 2000))
+export async function singInWithCredentials(_: unknown, formData: FormData) {
+  const credentials = Object.fromEntries(formData)
 
-  const result = await postSigninCredentials({
-    email: email as string,
-    password: password as string,
-  })
+  const { success, error, data } = credentialsSchema.safeParse(credentials)
 
-  console.log(prevState)
+  if (!success) {
+    const errors = error.flatten().fieldErrors
+    return { success: false, message: null, errors }
+  }
 
-  return result
+  try {
+    const { accessToken } = await postSigninCredentials(data)
+    console.log({ accessToken })
+  } catch (error) {
+    if (error instanceof HTTPError) {
+      const { message } = await error.response.json()
+      return { success: false, message, errors: null }
+    }
+  }
+
+  return { success: true, message: null, errors: null }
 }

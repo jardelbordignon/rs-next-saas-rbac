@@ -9,19 +9,39 @@ import { Button, Input, Label, Separator } from '@/components/ui'
 import { singInWithCredentials } from './actions'
 
 export function SignInForm() {
-  const [state, formAction, isPending] = useActionState(singInWithCredentials, null)
+  const initialState = { success: false, message: null, errors: null }
+
+  const [state, formAction, isPending] = useActionState(
+    singInWithCredentials,
+    initialState,
+  )
+
+  const { success, message, errors } = state
 
   return (
     <form action={formAction} className='space-y-4'>
-      <h2>{state?.accessToken}</h2>
+      {!success && message && <p>{message}</p>}
+
       <div className='space-y-1'>
         <Label htmlFor='email'>E-mail</Label>
         <Input name='email' type='email' id='email' />
+
+        {errors?.email && (
+          <p className='text-xs font-medium text-red-500 dark:text-red-400'>
+            {errors.email[0]}
+          </p>
+        )}
       </div>
 
       <div className='space-y-1'>
         <Label htmlFor='password'>Password</Label>
         <Input name='password' type='password' id='password' />
+
+        {errors?.password && (
+          <p className='text-xs font-medium text-red-500 dark:text-red-400'>
+            {errors.password[0]}
+          </p>
+        )}
 
         <Link
           href='/auth/forgot-password'
