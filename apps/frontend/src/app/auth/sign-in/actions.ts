@@ -1,8 +1,8 @@
 'use server'
 
+import { HTTPError } from 'ky'
 import { z } from 'zod'
 import { postSigninCredentials } from '@/http/post-signin-credentials'
-import { HTTPError } from 'ky'
 
 const credentialsSchema = z.object({
   email: z.string().email({ message: 'Please, provide a valid email' }),

@@ -3,35 +3,42 @@
 import { Loader2 } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { startTransition, useActionState, useEffect } from 'react'
+//import { startTransition, useActionState, useEffect } from 'react'
 import { toast } from 'sonner'
 import { facebookIcon, githubIcon, googleIcon } from '@/assets'
 import { Button, Input, Label, Separator } from '@/components/ui'
+import { useFormState } from '@/hooks'
 import { singInWithCredentials } from './actions'
 
 export function SignInForm() {
-  const initialState = { success: false, message: null, errors: null }
+  // const initialState = { success: false, message: null, errors: null }
 
-  const [state, formAction, isPending] = useActionState(
-    singInWithCredentials,
-    initialState,
-  )
+  // const [state, formAction, isPending] = useActionState(
+  //   singInWithCredentials,
+  //   initialState,
+  // )
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
+  // const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  //   event.preventDefault()
 
-    startTransition(() => {
-      formAction(new FormData(event.currentTarget))
-    })
-  }
+  //   startTransition(() => {
+  //     formAction(new FormData(event.currentTarget))
+  //   })
+  // }
 
-  const { success, message, errors } = state
+  // const { success, message, errors } = state
 
-  useEffect(() => {
-    if (!isPending && !success && message) {
-      toast.error(message)
-    }
-  }, [isPending, message, success])
+  // useEffect(() => {
+  //   if (!isPending && !success && message) {
+  //     toast.error(message)
+  //   }
+  // }, [isPending, message, success])
+
+  const [state, handleSubmit, isPending] = useFormState(singInWithCredentials, {
+    onError: ({ message }) => toast.error(message),
+  })
+
+  const { errors } = state
 
   return (
     <form onSubmit={handleSubmit} className='space-y-4'>
