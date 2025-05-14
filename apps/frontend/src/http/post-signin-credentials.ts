@@ -1,14 +1,16 @@
 import { api } from './api-client'
 
-interface Request {
+interface PostSigninCredentialsRequest {
   email: string
   password: string
 }
 
-interface Response {
+interface PostSigninCredentialsResponse {
   accessToken: string
 }
 
-export async function postSigninCredentials(json: Request) {
-  return api.post('signin/credentials', { json }).json<Response>()
+export async function postSigninCredentials(json: PostSigninCredentialsRequest) {
+  return api
+    .post('signin/credentials', { json })
+    .json<PostSigninCredentialsResponse>()
 }
