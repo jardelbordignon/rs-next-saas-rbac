@@ -2,10 +2,11 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { facebookIcon, githubIcon, googleIcon } from '@/assets'
 import { Button, Input, Label, Separator } from '@/components/ui'
+import { singInWithCredentials } from './actions'
 
 export default function SignInPage() {
   return (
-    <form action='' className='space-y-4'>
+    <form action={singInWithCredentials} className='space-y-4'>
       <div className='space-y-1'>
         <Label htmlFor='email'>E-mail</Label>
         <Input name='email' type='email' id='email' />
