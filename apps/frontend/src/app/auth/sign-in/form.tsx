@@ -3,7 +3,7 @@
 import { Loader2 } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useActionState, useEffect } from 'react'
+import { startTransition, useActionState, useEffect } from 'react'
 import { toast } from 'sonner'
 import { facebookIcon, githubIcon, googleIcon } from '@/assets'
 import { Button, Input, Label, Separator } from '@/components/ui'
@@ -17,6 +17,14 @@ export function SignInForm() {
     initialState,
   )
 
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+
+    startTransition(() => {
+      formAction(new FormData(event.currentTarget))
+    })
+  }
+
   const { success, message, errors } = state
 
   useEffect(() => {
@@ -26,7 +34,7 @@ export function SignInForm() {
   }, [isPending, message, success])
 
   return (
-    <form action={formAction} className='space-y-4'>
+    <form onSubmit={handleSubmit} className='space-y-4'>
       <div className='space-y-1'>
         <Label htmlFor='email'>E-mail</Label>
         <Input name='email' type='email' id='email' />
