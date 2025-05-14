@@ -24,3 +24,4 @@ deletei as aplicações web e docs de dentro do diretório apps
 </details>
 
 bun x --bun shadcn@latest init
+bun x --bun shadcn@latest add sonner

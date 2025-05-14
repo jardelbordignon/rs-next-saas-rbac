@@ -4,7 +4,7 @@ type Props = Readonly<{
 
 export default function AuthLayout({ children }: Props) {
   return (
-    <div className='min-h-screen flex items-center justify-center flex-col px-4'>
+    <div className='flex min-h-screen flex-col items-center justify-center px-4'>
       <div className='w-full max-w-xs'>{children}</div>
     </div>
   )

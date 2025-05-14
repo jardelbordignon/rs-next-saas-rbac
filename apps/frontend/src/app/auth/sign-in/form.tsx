@@ -3,7 +3,8 @@
 import { Loader2 } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useActionState } from 'react'
+import { useActionState, useEffect } from 'react'
+import { toast } from 'sonner'
 import { facebookIcon, githubIcon, googleIcon } from '@/assets'
 import { Button, Input, Label, Separator } from '@/components/ui'
 import { singInWithCredentials } from './actions'
@@ -18,10 +19,14 @@ export function SignInForm() {
 
   const { success, message, errors } = state
 
+  useEffect(() => {
+    if (!isPending && !success && message) {
+      toast.error(message)
+    }
+  }, [isPending, message, success])
+
   return (
     <form action={formAction} className='space-y-4'>
-      {!success && message && <p>{message}</p>}
-
       <div className='space-y-1'>
         <Label htmlFor='email'>E-mail</Label>
         <Input name='email' type='email' id='email' />
