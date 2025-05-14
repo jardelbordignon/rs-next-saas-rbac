@@ -4,6 +4,7 @@ import { Loader2 } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 //import { startTransition, useActionState, useEffect } from 'react'
+import { redirect } from 'next/navigation'
 import { toast } from 'sonner'
 import { facebookIcon, githubIcon, googleIcon } from '@/assets'
 import { Button, Input, Label, Separator } from '@/components/ui'
@@ -36,6 +37,7 @@ export function SignInForm() {
 
   const [state, handleSubmit, isPending] = useFormState(singInWithCredentials, {
     onError: ({ message }) => toast.error(message),
+    onSuccess: () => redirect('/'),
   })
 
   const { errors } = state
