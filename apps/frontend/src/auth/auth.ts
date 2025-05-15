@@ -8,7 +8,7 @@ export async function isAuthenticated() {
   return !!cookies.get('accessToken')?.value
 }
 
-export async function auth() {
+export async function authProfile() {
   const cookies = await _cookies()
 
   const accessToken = cookies.get('accessToken')?.value
