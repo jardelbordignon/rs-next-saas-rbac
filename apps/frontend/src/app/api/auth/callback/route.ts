@@ -3,16 +3,16 @@ import { type NextRequest, NextResponse } from 'next/server'
 import { postSigninSocial } from '@/http/post-signin-social'
 
 export async function GET(request: NextRequest) {
-  const { code, social } = Object.fromEntries(request.nextUrl.searchParams)
+  const { code, provider } = Object.fromEntries(request.nextUrl.searchParams)
 
-  if (!code || !social) {
+  if (!code || !provider) {
     return NextResponse.json(
-      { message: 'social or code parameter not found' },
+      { message: 'provider or code parameter not found' },
       { status: 400 },
     )
   }
 
-  const { accessToken } = await postSigninSocial({ code, social })
+  const { accessToken } = await postSigninSocial({ code, provider })
 
   const { set } = await cookies()
 

@@ -2,7 +2,7 @@ import { api } from './api-client'
 
 export interface PostSigninSocialRequest {
   code: string
-  social: string // 'facebook' | 'github' | 'google'
+  provider: string // 'facebook' | 'github' | 'google'
 }
 
 interface PostSigninSocialResponse {
@@ -10,8 +10,8 @@ interface PostSigninSocialResponse {
 }
 
 export async function postSigninSocial(data: PostSigninSocialRequest) {
-  const { code, social } = data
+  const { code, provider } = data
   return api
-    .post(`signin/${social}`, { json: { code } })
+    .post(`signin/${provider}`, { json: { code } })
     .json<PostSigninSocialResponse>()
 }
