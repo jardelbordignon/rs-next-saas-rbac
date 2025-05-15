@@ -3,13 +3,13 @@
 import Image from 'next/image'
 import { facebookIcon, githubIcon, googleIcon } from '@/assets'
 import { Button, Separator } from '@/components/ui'
-import { enterWithGithub } from './actions'
+import { enterWithFacebook, enterWithGithub } from './actions'
 
 export function EnterWithSocialAccount({ text }: { text: 'in' | 'up' }) {
   return (
     <div className='space-y-4'>
       <Separator />
-      <form>
+      <form action={enterWithFacebook}>
         <Button type='submit' variant='outline' className='w-full'>
           <Image src={facebookIcon} alt='' className='mr-2 size-4 dark:invert' />
           Sign {text} with Facebook

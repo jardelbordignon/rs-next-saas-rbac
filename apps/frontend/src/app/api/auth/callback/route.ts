@@ -1,21 +1,18 @@
 import { cookies } from 'next/headers'
 import { type NextRequest, NextResponse } from 'next/server'
-import { postSignBySocial } from '@/http/post-sign-by-social'
+import { postSigninSocial } from '@/http/post-signin-social'
 
 export async function GET(request: NextRequest) {
-  const code = request.nextUrl.searchParams.get('code')
+  const { code, social } = Object.fromEntries(request.nextUrl.searchParams)
 
-  if (!code) {
+  if (!code || !social) {
     return NextResponse.json(
-      { message: 'Github OAuth code not found' },
+      { message: 'social or code parameter not found' },
       { status: 400 },
     )
   }
 
-  const { accessToken } = await postSignBySocial({
-    code,
-    social: 'github',
-  })
+  const { accessToken } = await postSigninSocial({ code, social })
 
   const { set } = await cookies()
 

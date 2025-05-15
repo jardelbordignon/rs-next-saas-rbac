@@ -2,7 +2,14 @@
 
 import { redirect } from 'next/navigation'
 
-//https://github.com/login/oauth/authorize?client_id=<GITHUB_CLIENT_ID>&redirect_uri=http://localhost:3000/api/auth/callback&scope=user:email
+export async function enterWithFacebook() {
+  const url = new URL('https://www.facebook.com/v13.0/dialog/oauth')
+  url.searchParams.set('client_id', process.env.FACEBOOK_CLIENT_ID)
+  url.searchParams.set('redirect_uri', process.env.FACEBOOK_REDIRECT_URI)
+  url.searchParams.set('scope', 'email')
+
+  redirect(url.toString())
+}
 
 export async function enterWithGithub() {
   const url = new URL('https://github.com/login/oauth/authorize')
