@@ -1,5 +1,11 @@
+import { EnterWithSocialAccount } from '../enter-with-social-account'
 import { SignUpForm } from './form'
 
 export default function SignUpPage() {
-  return <SignUpForm />
+  return (
+    <>
+      <SignUpForm />
+      <EnterWithSocialAccount text='up' />
+    </>
+  )
 }

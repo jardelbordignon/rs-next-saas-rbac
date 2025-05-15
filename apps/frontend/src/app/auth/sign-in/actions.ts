@@ -10,8 +10,7 @@ const credentialsSchema = z.object({
   password: z.string().min(6, { message: 'Please, provide your password' }),
 })
 
-export async function singInWithCredentials(_: unknown, formData: FormData) {
-  const { set } = await cookies()
+export async function singIn(_: unknown, formData: FormData) {
   const credentials = Object.fromEntries(formData)
 
   const { success, error, data } = credentialsSchema.safeParse(credentials)
@@ -23,6 +22,7 @@ export async function singInWithCredentials(_: unknown, formData: FormData) {
 
   try {
     const { accessToken } = await postSigninCredentials(data)
+    const { set } = await cookies()
     set('accessToken', accessToken, {
       maxAge: 60 * 60 * 24 * 7,
       path: '/',

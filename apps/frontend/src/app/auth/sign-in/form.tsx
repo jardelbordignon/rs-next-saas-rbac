@@ -5,16 +5,16 @@ import Link from 'next/link'
 //import { startTransition, useActionState, useEffect } from 'react'
 import { redirect } from 'next/navigation'
 import { toast } from 'sonner'
+import { TextInput } from '@/components/form'
 import { Button, Input, Label } from '@/components/ui'
 import { useFormState } from '@/hooks'
-import { EnterWithSocialAccount } from '../enter-with-social-account'
-import { singInWithCredentials } from './actions'
+import { singIn } from './actions'
 
 export function SignInForm() {
   // const initialState = { success: false, message: null, errors: null }
 
   // const [state, formAction, isPending] = useActionState(
-  //   singInWithCredentials,
+  //   singIn,
   //   initialState,
   // )
 
@@ -34,7 +34,7 @@ export function SignInForm() {
   //   }
   // }, [isPending, message, success])
 
-  const [state, handleSubmit, isPending] = useFormState(singInWithCredentials, {
+  const [state, handleSubmit, isPending] = useFormState(singIn, {
     onError: ({ message }) => toast.error(message),
     onSuccess: () => redirect('/'),
   })
@@ -42,47 +42,34 @@ export function SignInForm() {
   const { errors } = state
 
   return (
-    <div>
-      <form onSubmit={handleSubmit} className='space-y-4'>
-        <div className='space-y-1'>
-          <Label htmlFor='email'>E-mail</Label>
-          <Input name='email' type='email' id='email' />
+    <form onSubmit={handleSubmit} className='space-y-4'>
+      <TextInput id='email' label='E-mail' error={errors?.email?.[0]} />
 
-          {errors?.email && (
-            <p className='text-xs font-medium text-red-500 dark:text-red-400'>
-              {errors.email[0]}
-            </p>
-          )}
-        </div>
+      <div className='space-y-1'>
+        <Label htmlFor='password'>Password</Label>
+        <Input name='password' type='password' id='password' />
 
-        <div className='space-y-1'>
-          <Label htmlFor='password'>Password</Label>
-          <Input name='password' type='password' id='password' />
+        {errors?.password && (
+          <p className='text-xs font-medium text-red-500 dark:text-red-400'>
+            {errors.password[0]}
+          </p>
+        )}
 
-          {errors?.password && (
-            <p className='text-xs font-medium text-red-500 dark:text-red-400'>
-              {errors.password[0]}
-            </p>
-          )}
+        <Link
+          href='/auth/forgot-password'
+          className='text-foreground text-xs font-medium hover:underline'
+        >
+          Forgot your password?
+        </Link>
+      </div>
 
-          <Link
-            href='/auth/forgot-password'
-            className='text-foreground text-xs font-medium hover:underline'
-          >
-            Forgot your password?
-          </Link>
-        </div>
+      <Button type='submit' className='w-full'>
+        {isPending ? <Loader2 className='size-4 animate-spin' /> : 'Sign in'}
+      </Button>
 
-        <Button type='submit' className='w-full'>
-          {isPending ? <Loader2 className='size-4 animate-spin' /> : 'Sign in'}
-        </Button>
-
-        <Button variant='link' className='w-full' asChild>
-          <Link href='/auth/sign-up'>Not registered? Sign up</Link>
-        </Button>
-      </form>
-
-      <EnterWithSocialAccount text='in' />
-    </div>
+      <Button variant='link' className='w-full' asChild>
+        <Link href='/auth/sign-up'>Not registered? Sign up</Link>
+      </Button>
+    </form>
   )
 }
