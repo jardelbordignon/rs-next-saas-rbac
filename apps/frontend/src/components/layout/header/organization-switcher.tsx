@@ -12,8 +12,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui'
+import { getOrganizations } from '@/http/get-organizations'
 
-export function OrganizationSwitcher() {
+export async function OrganizationSwitcher() {
+  const { organizations } = await getOrganizations()
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className='flex w-[168px] items-center gap-2 rounded p-1 text-sm font-medium outline-none focus-visible:right-2 focus-visible:ring-primary'>
@@ -28,13 +31,18 @@ export function OrganizationSwitcher() {
       >
         <DropdownMenuGroup>
           <DropdownMenuLabel>Organizations</DropdownMenuLabel>
-          <DropdownMenuItem>
-            <Avatar>
-              <AvatarImage src='http://github.com/rocketseat.png' />
-              <AvatarFallback />
-            </Avatar>
-            <span className='line-clamp-1'>Rocketseat</span>
-          </DropdownMenuItem>
+          {organizations.map(({ avatarUrl, name, slug }) => (
+            <DropdownMenuItem key={slug} asChild>
+              <Link href={`/org/${slug}`}>
+                <Avatar>
+                  {avatarUrl && <AvatarImage src={avatarUrl} />}
+                  <AvatarFallback />
+                </Avatar>
+                <span className='line-clamp-1'>{name}</span>
+              </Link>
+            </DropdownMenuItem>
+          ))}
+
           <DropdownMenuSeparator />
           <DropdownMenuItem asChild>
             <Link href='/create-organization'>
