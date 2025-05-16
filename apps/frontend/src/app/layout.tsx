@@ -1,5 +1,4 @@
-import { ThemeProvider } from 'next-themes'
-import { Toaster } from '@/components/ui/sonner'
+import { Providers } from './providers'
 import type { Metadata } from 'next'
 import './globals.css'
 
@@ -16,14 +15,7 @@ export default function RootLayout({ children }: Props) {
   return (
     <html lang='en' suppressHydrationWarning>
       <body className={'antialiased'}>
-        <ThemeProvider
-          attribute='class'
-          defaultTheme='system'
-          disableTransitionOnChange
-        >
-          {children}
-        </ThemeProvider>
-        <Toaster position='top-center' />
+        <Providers>{children}</Providers>
       </body>
     </html>
   )
