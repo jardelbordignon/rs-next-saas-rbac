@@ -1,3 +1,4 @@
+import { ThemeProvider } from 'next-themes'
 import { Toaster } from '@/components/ui/sonner'
 import type { Metadata } from 'next'
 import './globals.css'
@@ -13,9 +14,15 @@ type Props = Readonly<{
 
 export default function RootLayout({ children }: Props) {
   return (
-    <html lang='en' className='dark'>
+    <html lang='en' suppressHydrationWarning>
       <body className={'antialiased'}>
-        {children}
+        <ThemeProvider
+          attribute='class'
+          defaultTheme='system'
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
         <Toaster position='top-right' />
       </body>
     </html>
