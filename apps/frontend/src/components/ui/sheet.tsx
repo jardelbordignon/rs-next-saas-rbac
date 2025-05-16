@@ -130,6 +130,8 @@ export {
   SheetClose,
   SheetContent,
   SheetHeader,
+  SheetOverlay,
+  SheetPortal,
   SheetFooter,
   SheetTitle,
   SheetDescription,
