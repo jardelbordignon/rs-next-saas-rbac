@@ -30,7 +30,7 @@ export function useFormState<T extends FormState>(
   const { onSuccess, onError } = options ?? {}
 
   useEffect(() => {
-    if (!isPending) {
+    if (!isPending && state.message) {
       if (state.success && onSuccess) {
         onSuccess(state)
       } else if (!state.success && onError) {

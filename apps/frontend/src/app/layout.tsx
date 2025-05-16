@@ -23,7 +23,7 @@ export default function RootLayout({ children }: Props) {
         >
           {children}
         </ThemeProvider>
-        <Toaster position='top-right' />
+        <Toaster position='top-center' />
       </body>
     </html>
   )
