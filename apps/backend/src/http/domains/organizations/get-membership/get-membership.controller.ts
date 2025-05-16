@@ -24,6 +24,7 @@ export async function getMembershipController(fastify: FastifyInstance) {
                 id: z.string(),
                 role: roleSchema,
                 organizationId: z.string(),
+                userId: z.string(),
               }),
             }),
           },
