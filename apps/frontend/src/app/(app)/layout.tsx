@@ -3,10 +3,10 @@ import { isAuthenticated } from '@/auth/auth'
 
 type Props = Readonly<{
   children: React.ReactNode
-  children2: React.ReactNode
+  parallel: React.ReactNode
 }>
 
-export default async function AppLayout({ children, children2 }: Props) {
+export default async function AppLayout({ children, parallel }: Props) {
   const authenticated = await isAuthenticated()
 
   if (!authenticated) {
@@ -17,7 +17,7 @@ export default async function AppLayout({ children, children2 }: Props) {
     <div className='mx-auto flex flex-col max-w-[1200px] w-full py-4 space-y-4'>
       <>
         {children}
-        {children2}
+        {parallel}
       </>
     </div>
   )

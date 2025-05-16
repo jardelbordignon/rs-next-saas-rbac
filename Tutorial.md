@@ -27,3 +27,4 @@ bun x --bun shadcn@latest init
 bun x --bun shadcn@latest add sonner
 bun x --bun shadcn@latest add dropdown-menu avatar
 bun x --bun shadcn@latest add checkbox
+bun x --bun shadcn@latest add sheet
