@@ -3,9 +3,10 @@ import { isAuthenticated } from '@/auth/auth'
 
 type Props = Readonly<{
   children: React.ReactNode
+  children2: React.ReactNode
 }>
 
-export default async function AppLayout({ children }: Props) {
+export default async function AppLayout({ children, children2 }: Props) {
   const authenticated = await isAuthenticated()
 
   if (!authenticated) {
@@ -14,7 +15,10 @@ export default async function AppLayout({ children }: Props) {
 
   return (
     <div className='mx-auto flex flex-col max-w-[1200px] w-full py-4 space-y-4'>
-      <>{children}</>
+      <>
+        {children}
+        {children2}
+      </>
     </div>
   )
 }
