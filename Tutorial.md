@@ -29,3 +29,4 @@ bun x --bun shadcn@latest add dropdown-menu avatar
 bun x --bun shadcn@latest add checkbox
 bun x --bun shadcn@latest add sheet
 bun x --bun shadcn@latest add skeleton
+bun x --bun shadcn@latest add textarea
