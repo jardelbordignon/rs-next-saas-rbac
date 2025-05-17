@@ -2,6 +2,8 @@
 
 import { HTTPError } from 'ky'
 import { z } from 'zod'
+import { getCurrentOrgCookie } from '@/auth/auth'
+import { postProjects } from '@/http/post-projects'
 
 const projectSchema = z.object({
   name: z.string().min(4, { message: 'Please, include at least 4 characters' }),
@@ -20,7 +22,17 @@ export async function createProject(_: unknown, formData: FormData) {
     return { success: false, message: null, errors }
   }
 
+  const orgSlug = await getCurrentOrgCookie()
+  if (!orgSlug) {
+    return {
+      success: false,
+      message: 'Organization reference not found',
+      errors: null,
+    }
+  }
+
   try {
+    await postProjects({ ...data, orgSlug })
     return { success: true, message: 'Project saved successfully', errors: null }
   } catch (error) {
     let message = 'Something went wrong in postProjects'
