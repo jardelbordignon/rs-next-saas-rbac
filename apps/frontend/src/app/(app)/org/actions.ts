@@ -2,7 +2,9 @@
 
 import { HTTPError } from 'ky'
 import { z } from 'zod'
+import { getCurrentOrgCookie } from '@/auth/auth'
 import { postOrganizations } from '@/http/post-organizations'
+import { updateOrganizations } from '@/http/update-organizations'
 
 const organizationSchema = z
   .object({
@@ -11,7 +13,7 @@ const organizationSchema = z
       value => {
         if (value) {
           const domainRegex =
-            /^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}$/
+            /^(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$/
           return domainRegex.test(value)
         }
         return true
@@ -28,7 +30,9 @@ const organizationSchema = z
     path: ['domain'],
   })
 
-export async function createOrganization(_: unknown, formData: FormData) {
+export type OrganizationSchema = z.infer<typeof organizationSchema>
+
+export async function saveOrganization(_: unknown, formData: FormData) {
   const organizationData = Object.fromEntries(formData)
 
   const { success, error, data } = organizationSchema.safeParse(organizationData)
@@ -38,13 +42,23 @@ export async function createOrganization(_: unknown, formData: FormData) {
     return { success: false, message: null, errors }
   }
 
+  const orgCookie = await getCurrentOrgCookie()
+
   try {
-    await postOrganizations(data)
-    return { success: true, message: 'Organization saved successfully', errors: null }
+    if (orgCookie) {
+      await updateOrganizations({ ...data, orgSlug: orgCookie })
+    } else {
+      await postOrganizations(data)
+    }
+    return {
+      success: true,
+      message: `Organization ${orgCookie ? 'updated' : 'created'} successfully`,
+      errors: null,
+    }
   } catch (error) {
-    let message = 'Something went wrong in postOrganizations'
+    let message = `Something went wrong in ${orgCookie ? 'update' : 'post'}Organizations\n`
     if (error instanceof HTTPError) {
-      message = (await error.response.json()).message
+      message += (await error.response.json()).message
     }
     return { success: false, message, errors: null }
   }

@@ -1,4 +1,4 @@
-import { ability } from '@/auth/auth'
+import { ability, getCurrentOrgCookie } from '@/auth/auth'
 import {
   Card,
   CardContent,
@@ -6,6 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui'
+import { getOrganization } from '@/http/get-organization'
 import { OrganizationForm } from '../../form'
 import { DeleteOrganizationButton } from './delete-organization-button'
 
@@ -15,6 +16,18 @@ export default async function Settings() {
   const canUpdateOrganization = permissions?.can('update', 'Organization')
   const canGetBilling = permissions?.can('get', 'Billing')
   const canDeleteOrganization = permissions?.can('delete', 'Organization')
+
+  let initialData
+
+  const orgCookie = await getCurrentOrgCookie()
+  if (orgCookie) {
+    const { organization } = await getOrganization(orgCookie)
+    initialData = {
+      domain: organization.domain ?? '',
+      name: organization.name,
+      shouldAttachUsersByDomain: organization.shouldAttachUsersByDomain,
+    }
+  }
 
   return (
     <div className='space-y-4'>
@@ -28,7 +41,7 @@ export default async function Settings() {
               <CardDescription>Update your organization details</CardDescription>
             </CardHeader>
             <CardContent>
-              <OrganizationForm />
+              <OrganizationForm initialData={initialData} />
             </CardContent>
           </Card>
         )}
