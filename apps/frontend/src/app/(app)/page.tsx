@@ -5,7 +5,7 @@ export default async function Home() {
     <div className='space-y-4'>
       <Header />
 
-      <main>Home</main>
+      <p>Home</p>
     </div>
   )
 }

@@ -12,7 +12,7 @@ export async function Header() {
   const permissions = await ability()
 
   return (
-    <header className='flex items-center justify-between w-full border-b border-border pb-4'>
+    <header className='flex items-center justify-between w-full'>
       <div className='flex items-center gap-3'>
         <Image src={logoIcon} className='size-6 dark:invert' alt='SaaS App' />
         <Slash className='size-3 -rotate-[24deg] text-border' />
