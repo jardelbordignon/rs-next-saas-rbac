@@ -11,7 +11,7 @@ export async function isAuthenticated() {
 }
 
 export async function authProfile() {
-  const { delete: del, get } = await cookies()
+  const { get } = await cookies()
 
   const accessToken = get('accessToken')?.value
 
@@ -23,10 +23,8 @@ export async function authProfile() {
     const { user } = await getProfile()
     return { user }
   } catch {
-    del('accessToken')
+    redirect('/api/auth/sign-out')
   }
-
-  redirect('/auth/sign-in')
 }
 
 export async function getCurrentOrgCookie() {

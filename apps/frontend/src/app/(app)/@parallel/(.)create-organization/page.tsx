@@ -4,7 +4,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from '@/components/ui-custom/intercepted-sheet'
-import { OrganizationForm } from '../../create-organization/form'
+import { OrganizationForm } from '../../org/form'
 
 export default function CreateOrganization() {
   return (

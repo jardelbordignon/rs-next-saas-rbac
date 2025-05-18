@@ -5,7 +5,7 @@ import { toast } from 'sonner'
 import { SubmitButton, TextInput } from '@/components/form'
 import { Checkbox } from '@/components/ui'
 import { useFormState } from '@/hooks'
-import { createOrganization } from './actions'
+import { createOrganization } from '../create-organization/actions'
 
 export function OrganizationForm() {
   const [state, handleSubmit, isPending] = useFormState(createOrganization, {
