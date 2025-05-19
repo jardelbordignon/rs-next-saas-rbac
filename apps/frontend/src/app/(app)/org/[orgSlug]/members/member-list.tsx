@@ -1,5 +1,5 @@
 import { organizationSchema } from '@repo/authorizations'
-import { ArrowLeftRight, Crown } from 'lucide-react'
+import { ArrowLeftRight, Crown, UserMinus } from 'lucide-react'
 import Image from 'next/image'
 import { ability, getCurrentOrgCookie } from '@/auth/auth'
 import {
@@ -14,6 +14,7 @@ import {
 import { getOrganization } from '@/http/get-organization'
 import { getOrganizationMembers } from '@/http/get-organization-members'
 import { getOrganizationMembership } from '@/http/get-organization-membership'
+import { removeMemberAction } from './actions'
 
 export async function MemberList() {
   const orgCookie = await getCurrentOrgCookie()
@@ -75,6 +76,23 @@ export async function MemberList() {
                         <ArrowLeftRight className='mr-2 size-4' />
                         Transfer organization
                       </Button>
+                    )}
+
+                    {permissions?.can('delete', 'User') && (
+                      <form action={removeMemberAction.bind(null, member.id)}>
+                        <Button
+                          disabled={
+                            member.userId === membership.userId || // me
+                            member.userId === organization.ownerId // owner
+                          }
+                          type='submit'
+                          size='sm'
+                          variant='destructive'
+                        >
+                          <UserMinus className='mr-2 size-4' />
+                          Remove
+                        </Button>
+                      </form>
                     )}
                   </div>
                 </TableCell>

@@ -1,5 +1,4 @@
 import { z } from 'zod'
-import { updateMemberSchema } from '@/database/schema'
 import { auth } from '@/http/middlewares'
 import { deleteMemberService } from './remove-member.service'
 import type { FastifyInstance } from 'fastify'
@@ -20,7 +19,6 @@ export async function removeMemberController(fastify: FastifyInstance) {
             slug: z.string(),
             memberId: z.string(),
           }),
-          body: updateMemberSchema,
           response: {
             204: z.null(),
             401: z.object({
