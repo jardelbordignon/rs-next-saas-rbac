@@ -1,7 +1,7 @@
 import { defineAbilityFor } from '@repo/authorizations'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
-import { getMembership } from '@/http/get-membership'
+import { getOrganizationMembership } from '@/http/get-organization-membership'
 import { getProfile } from '@/http/get-profile'
 
 export async function isAuthenticated() {
@@ -35,7 +35,7 @@ export async function getCurrentOrgCookie() {
 export async function getCurrentMembership() {
   const orgCookie = await getCurrentOrgCookie()
   if (!orgCookie) return null
-  const { membership } = await getMembership(orgCookie)
+  const { membership } = await getOrganizationMembership(orgCookie)
   return membership
 }
 
