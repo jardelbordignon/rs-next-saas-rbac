@@ -8,6 +8,7 @@ import {
 } from '@/components/ui'
 import { getOrganization } from '@/http/get-organization'
 import { OrganizationForm } from '../../form'
+import { Billing } from './billing'
 import { DeleteOrganizationButton } from './delete-organization-button'
 
 export default async function Settings() {
@@ -46,7 +47,7 @@ export default async function Settings() {
           </Card>
         )}
 
-        {canGetBilling && <div>Billing</div>}
+        {canGetBilling && <Billing />}
 
         {canDeleteOrganization && (
           <Card>
