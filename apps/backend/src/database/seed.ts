@@ -221,6 +221,12 @@ for (const email of [joao.email, maria.email, ana.email, jose.email]) {
     authorId: fakeUser.id,
     organizationId: fakeOrganization.id,
   })
+  invitesData.push({
+    email,
+    role: faker.helpers.arrayElement(['MEMBER', 'ADMIN']),
+    authorId: fakeUser.id,
+    organizationId: alfa.id,
+  })
 }
 
 await database.insert(invites).values(invitesData)

@@ -1,5 +1,4 @@
 import { z } from 'zod'
-import { insertInviteSchema } from '@/database/schema'
 import { auth } from '@/http/middlewares'
 import { revokeInviteService } from './revoke-invite.service'
 import type { FastifyInstance } from 'fastify'
@@ -9,7 +8,7 @@ export async function revokeInviteController(fastify: FastifyInstance) {
   fastify
     .withTypeProvider<ZodTypeProvider>()
     .register(auth)
-    .post(
+    .delete(
       '/organizations/:slug/invites/:inviteId',
       {
         schema: {
@@ -17,7 +16,6 @@ export async function revokeInviteController(fastify: FastifyInstance) {
             slug: z.string(),
             inviteId: z.string(),
           }),
-          body: insertInviteSchema.pick({ email: true, role: true }),
           summary: 'Revoke an invite',
           tags: ['Invites'],
           security: [{ bearerAuth: [] }],
