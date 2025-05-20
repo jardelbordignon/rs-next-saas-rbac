@@ -22,6 +22,7 @@ const appAbilitiesSchema = z.union([
 export * from './models/organization'
 export * from './models/project'
 export * from './models/user'
+export * from './roles'
 
 type AppAbilities = z.infer<typeof appAbilitiesSchema>
 

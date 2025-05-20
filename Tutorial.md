@@ -32,3 +32,4 @@ bun x --bun shadcn@latest add skeleton
 bun x --bun shadcn@latest add textarea
 bun x --bun shadcn@latest add card
 bun x --bun shadcn@latest add table
+bun x --bun shadcn@latest add select

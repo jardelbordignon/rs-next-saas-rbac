@@ -15,6 +15,7 @@ import { getOrganization } from '@/http/get-organization'
 import { getOrganizationMembers } from '@/http/get-organization-members'
 import { getOrganizationMembership } from '@/http/get-organization-membership'
 import { removeMemberAction } from './actions'
+import { UpdateMemberRoleSelect } from './update-member-role-select'
 
 export async function MemberList() {
   const orgCookie = await getCurrentOrgCookie()
@@ -77,6 +78,16 @@ export async function MemberList() {
                         Transfer organization
                       </Button>
                     )}
+
+                    <UpdateMemberRoleSelect
+                      memberId={member.id}
+                      value={member.role}
+                      disabled={
+                        member.userId === membership.userId || // me
+                        member.userId === organization.ownerId || // owner
+                        permissions?.cannot('update', 'User')
+                      }
+                    />
 
                     {permissions?.can('delete', 'User') && (
                       <form action={removeMemberAction.bind(null, member.id)}>
