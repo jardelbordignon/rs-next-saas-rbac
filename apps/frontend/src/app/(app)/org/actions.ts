@@ -32,7 +32,7 @@ const organizationSchema = z
 
 export type OrganizationSchema = z.infer<typeof organizationSchema>
 
-export async function saveOrganization(_: unknown, formData: FormData) {
+export async function saveOrganization(formData: FormData) {
   const organizationData = Object.fromEntries(formData)
 
   const { success, error, data } = organizationSchema.safeParse(organizationData)

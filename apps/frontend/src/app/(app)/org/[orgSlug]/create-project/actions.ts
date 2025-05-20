@@ -12,7 +12,7 @@ const projectSchema = z.object({
     .min(4, { message: 'Please, include at least 4 characters' }),
 })
 
-export async function createProject(_: unknown, formData: FormData) {
+export async function createProject(formData: FormData) {
   const projectData = Object.fromEntries(formData)
 
   const { success, error, data } = projectSchema.safeParse(projectData)

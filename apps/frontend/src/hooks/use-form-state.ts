@@ -1,5 +1,5 @@
-import { startTransition, useEffect } from 'react'
-import { useActionState } from 'react'
+import { useState, useTransition } from 'react'
+import type { FormEvent } from 'react'
 
 interface FormState {
   success: boolean
@@ -7,44 +7,40 @@ interface FormState {
   errors: Record<string, string[]> | null
 }
 
-interface UseFormOptions<T> {
-  initialState?: Awaited<T>
-  onSuccess?: (state: T) => void
-  onError?: (state: T) => void
-}
-
-export function useFormState<T extends FormState>(
-  action: (_: Awaited<T>, formData: FormData) => Promise<T>,
-  options?: UseFormOptions<T>,
+export function useFormState(
+  action: (data: FormData) => Promise<FormState>,
+  options?: {
+    initialState?: FormState
+    onSuccess?: (state: FormState) => void
+    onError?: (state: FormState) => void
+  },
 ) {
-  const initialState =
-    options?.initialState ??
-    ({
-      errors: null,
-      message: null,
-      success: false,
-    } as Awaited<T>)
+  const [isPending, startTransition] = useTransition()
 
-  const [state, formAction, isPending] = useActionState(action, initialState)
+  const [formState, setFormState] = useState(
+    options?.initialState ?? { success: false, message: null, errors: null },
+  )
 
-  const { onSuccess, onError } = options ?? {}
-
-  useEffect(() => {
-    if (!isPending && state.message) {
-      if (state.success && onSuccess) {
-        onSuccess(state)
-      } else if (!state.success && onError) {
-        onError(state)
-      }
-    }
-  }, [isPending, state, onSuccess, onError])
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    startTransition(() => {
-      formAction(new FormData(event.currentTarget))
+
+    const form = event.currentTarget
+
+    startTransition(async () => {
+      const state = await action(new FormData(form))
+
+      if (state.success) {
+        form.reset()
+        if (options?.onSuccess) {
+          options.onSuccess(state)
+        }
+      } else if (options?.onError) {
+        options.onError(state)
+      }
+
+      setFormState(state)
     })
   }
 
-  return [state, handleSubmit, isPending] as const
+  return [formState, handleSubmit, isPending] as const
 }

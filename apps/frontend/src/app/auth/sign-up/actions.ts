@@ -18,7 +18,7 @@ const signUpSchema = z
     path: ['password_confirmation'],
   })
 
-export async function signUp(_: unknown, formData: FormData) {
+export async function signUp(formData: FormData) {
   const signUpData = Object.fromEntries(formData)
 
   const { success, error, data } = signUpSchema.safeParse(signUpData)
