@@ -5,16 +5,16 @@ import { useTheme } from 'next-themes'
 import { Button } from '@/components/ui'
 
 export function ThemeSwitcher() {
-  const { theme, setTheme } = useTheme()
-  const Icon = theme === 'light' ? Sun : Moon
+  const { resolvedTheme, setTheme } = useTheme()
 
   function toggleTheme() {
-    setTheme(theme === 'light' ? 'dark' : 'light')
+    setTheme(resolvedTheme === 'light' ? 'dark' : 'light')
   }
 
   return (
     <Button variant='ghost' size='icon' onClick={toggleTheme}>
-      <Icon className='size-4' />
+      <Sun className='inline dark:hidden size-4' />
+      <Moon className='hidden dark:inline size-4' />
       <span className='sr-only'>Toggle theme</span>
     </Button>
   )

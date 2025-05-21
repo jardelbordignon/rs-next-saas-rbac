@@ -6,7 +6,7 @@ import { Separator } from '@/components/ui'
 import { OrganizationSwitcher } from './organization-switcher'
 import { ProfileButton } from './profile-button'
 import { ProjectSwitcher } from './project-switcher'
-import { ThemeSwitcher } from './theme/theme-switcher'
+import { ThemeSwitcher } from './theme-switcher'
 
 export async function Header() {
   const permissions = await ability()
