@@ -16,7 +16,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui'
 import { Skeleton } from '@/components/ui'
-import { getProjects } from '@/http/get-projects'
+import { getOrganizationProjects } from '@/http/get-organization-projects'
 
 type RouteParams = {
   orgSlug: string
@@ -28,7 +28,7 @@ export function ProjectSwitcher() {
 
   const { data, isLoading } = useQuery({
     queryKey: [orgSlug, 'projects'],
-    queryFn: () => getProjects(orgSlug),
+    queryFn: () => getOrganizationProjects(orgSlug),
     enabled: !!orgSlug,
   })
 

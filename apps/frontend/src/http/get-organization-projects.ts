@@ -1,6 +1,6 @@
 import { api } from './api-client'
 
-interface GetProjectsResponseItem {
+interface GetOrganizationProjectsResponseItem {
   project: {
     id: string
     createdAt: string
@@ -19,8 +19,10 @@ interface GetProjectsResponseItem {
   }
 }
 
-type GetProjectsResponse = GetProjectsResponseItem[]
+export type GetOrganizationProjectsResponse = GetOrganizationProjectsResponseItem[]
 
-export async function getProjects(orgSlug: string) {
-  return api.get(`organizations/${orgSlug}/projects`).json<GetProjectsResponse>()
+export async function getOrganizationProjects(orgSlug: string) {
+  return api
+    .get(`organizations/${orgSlug}/projects`)
+    .json<GetOrganizationProjectsResponse>()
 }
