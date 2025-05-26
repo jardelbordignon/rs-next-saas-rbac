@@ -33,3 +33,4 @@ bun x --bun shadcn@latest add textarea
 bun x --bun shadcn@latest add card
 bun x --bun shadcn@latest add table
 bun x --bun shadcn@latest add select
+bun x --bun shadcn@latest add popover
