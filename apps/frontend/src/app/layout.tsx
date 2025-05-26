@@ -14,7 +14,7 @@ type Props = Readonly<{
 export default function RootLayout({ children }: Props) {
   return (
     <html lang='en' suppressHydrationWarning>
-      <body className={'antialiased'}>
+      <body className={'antialiased px-4'}>
         <Providers>{children}</Providers>
       </body>
     </html>

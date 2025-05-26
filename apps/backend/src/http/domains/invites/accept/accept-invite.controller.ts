@@ -1,5 +1,4 @@
 import { z } from 'zod'
-import { insertInviteSchema } from '@/database/schema'
 import { auth } from '@/http/middlewares'
 import { acceptInviteService } from './accept-invite.service'
 import type { FastifyInstance } from 'fastify'
@@ -16,7 +15,6 @@ export async function acceptInviteController(fastify: FastifyInstance) {
           params: z.object({
             inviteId: z.string(),
           }),
-          body: insertInviteSchema.pick({ email: true, role: true }),
           summary: 'Accept an invite',
           tags: ['Invites'],
           security: [{ bearerAuth: [] }],

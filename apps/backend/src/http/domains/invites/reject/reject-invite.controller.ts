@@ -1,5 +1,4 @@
 import { z } from 'zod'
-import { insertInviteSchema } from '@/database/schema'
 import { rejectInviteService } from './reject-invite.service'
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
@@ -12,7 +11,6 @@ export async function rejectInviteController(fastify: FastifyInstance) {
         params: z.object({
           inviteId: z.string(),
         }),
-        body: insertInviteSchema.pick({ email: true, role: true }),
         summary: 'Reject an invite',
         tags: ['Invites'],
         response: {

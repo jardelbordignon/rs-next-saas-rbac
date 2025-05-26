@@ -3,6 +3,7 @@
 import { HTTPError } from 'ky'
 import { cookies } from 'next/headers'
 import { z } from 'zod'
+import { postInviteAccept } from '@/http/post-invite-accept'
 import { postSigninCredentials } from '@/http/post-signin-credentials'
 
 const credentialsSchema = z.object({
@@ -22,11 +23,22 @@ export async function singIn(formData: FormData) {
 
   try {
     const { accessToken } = await postSigninCredentials(data)
-    const { set } = await cookies()
+    const { get, set, delete: remove } = await cookies()
     set('accessToken', accessToken, {
       maxAge: 60 * 60 * 24 * 7,
       path: '/',
     })
+
+    const inviteId = get('inviteId')?.value
+
+    if (inviteId) {
+      try {
+        await postInviteAccept(inviteId)
+        remove('inviteId')
+      } catch {
+        // Intentionally ignore errors from postInviteAccept
+      }
+    }
   } catch (error) {
     if (error instanceof HTTPError) {
       const { message } = await error.response.json()

@@ -1,5 +1,17 @@
-import { Avatar, AvatarFallback, AvatarImage, Separator } from '@/components/ui'
+import { CheckCircle, LogIn } from 'lucide-react'
+import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
+import { isAuthenticated } from '@/auth/auth'
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+  Button,
+  Separator,
+} from '@/components/ui'
 import { getInvite } from '@/http/get-invite'
+import { getProfile } from '@/http/get-profile'
+import { postInviteAccept } from '@/http/post-invite-accept'
 import { relativeTime } from '@/lib/date'
 
 interface InvitePageProps {
@@ -12,6 +24,31 @@ export default async function InvitePage({ params }: InvitePageProps) {
   const { id } = await params
 
   const { invite } = await getInvite(id)
+  const isUserAuthenticated = await isAuthenticated()
+
+  let currentUserEmail = null
+  if (isUserAuthenticated) {
+    const { user } = await getProfile()
+    currentUserEmail = user.email
+  }
+
+  const isUserAuthenticatedWithSameEmailFromInvite =
+    isUserAuthenticated && invite.email === currentUserEmail
+
+  async function signInFromInviteAction() {
+    'use server'
+
+    const { set } = await cookies()
+    set('inviteId', id)
+    redirect(`/auth/sign-in?email=${invite.email}`)
+  }
+
+  async function acceptInviteAction() {
+    'use server'
+
+    await postInviteAccept(id)
+    redirect('/')
+  }
 
   return (
     <div className='flex min-h-screen flex-col items-center justify-center px-4'>
@@ -37,6 +74,24 @@ export default async function InvitePage({ params }: InvitePageProps) {
         </div>
 
         <Separator />
+
+        {!isUserAuthenticated && (
+          <form action={signInFromInviteAction}>
+            <Button type='submit' variant='secondary' className='w-full'>
+              <LogIn className='mr-2 size-4' />
+              Sign in to accept the invite
+            </Button>
+          </form>
+        )}
+
+        {isUserAuthenticatedWithSameEmailFromInvite && (
+          <form action={acceptInviteAction}>
+            <Button type='submit' variant='secondary' className='w-full'>
+              <CheckCircle className='mr-2 size-4' />
+              Join {invite.organization.name}
+            </Button>
+          </form>
+        )}
       </div>
     </div>
   )

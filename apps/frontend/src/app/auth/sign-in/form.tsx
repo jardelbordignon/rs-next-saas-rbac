@@ -3,7 +3,7 @@
 import { Loader2 } from 'lucide-react'
 import Link from 'next/link'
 //import { startTransition, useActionState, useEffect } from 'react'
-import { redirect } from 'next/navigation'
+import { redirect, useSearchParams } from 'next/navigation'
 import { toast } from 'sonner'
 import { TextInput } from '@/components/form'
 import { Button, Input, Label } from '@/components/ui'
@@ -41,9 +41,16 @@ export function SignInForm() {
 
   const { errors } = state
 
+  const emailValue = useSearchParams().get('email') ?? ''
+
   return (
     <form onSubmit={handleSubmit} className='space-y-4'>
-      <TextInput id='email' label='E-mail' error={errors?.email?.[0]} />
+      <TextInput
+        id='email'
+        label='E-mail'
+        error={errors?.email?.[0]}
+        defaultValue={emailValue}
+      />
 
       <div className='space-y-1'>
         <Label htmlFor='password'>Password</Label>
@@ -68,7 +75,9 @@ export function SignInForm() {
       </Button>
 
       <Button variant='link' className='w-full' asChild>
-        <Link href='/auth/sign-up'>Not registered? Sign up</Link>
+        <Link href={`/auth/sign-up${emailValue ? `?email=${emailValue}` : ''}`}>
+          Not registered? Sign up
+        </Link>
       </Button>
     </form>
   )
