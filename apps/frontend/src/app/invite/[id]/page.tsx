@@ -1,5 +1,6 @@
 import { CheckCircle, LogIn } from 'lucide-react'
 import { cookies } from 'next/headers'
+import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { isAuthenticated } from '@/auth/auth'
 import {
@@ -91,6 +92,29 @@ export default async function InvitePage({ params }: InvitePageProps) {
               Join {invite.organization.name}
             </Button>
           </form>
+        )}
+
+        {isUserAuthenticated && !isUserAuthenticatedWithSameEmailFromInvite && (
+          <div className='space-y-4'>
+            <p className='text-balance text-center text-sm lending-relaxed text-muted-foreground'>
+              You are currently authenticated as{' '}
+              <span className='font-medium text-foreground'>{currentUserEmail}</span>{' '}
+              but this invite was sent to another e-mail.
+            </p>
+
+            <div className='space-y-2'>
+              <Button className='w-full' variant='secondary' asChild>
+                <a href='/api/auth/sign-out'>
+                  <LogIn className='mr-2 size-4' />
+                  Sign out from {currentUserEmail}
+                </a>
+              </Button>
+
+              <Button className='w-full' variant='outline' asChild>
+                <Link href='/'>Back to dashboard</Link>
+              </Button>
+            </div>
+          </div>
         )}
       </div>
     </div>
