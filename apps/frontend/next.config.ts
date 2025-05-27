@@ -8,6 +8,7 @@ const nextConfig: NextConfig = {
       { hostname: 'platform-lookaside.fbsbx.com' },
     ],
   },
+  output: 'standalone',
 }
 
 export default nextConfig
