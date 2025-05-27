@@ -1,11 +1,14 @@
-import { cookies as _cookies } from 'next/headers'
+import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
 export async function GET(request: NextRequest) {
-  const cookies = await _cookies()
+  const { delete: remove } = await cookies()
+  remove('accessToken')
 
-  cookies.delete('accessToken')
+  const redirectUrl = request.nextUrl.clone()
+  redirectUrl.pathname = '/auth/sign-in'
+  redirectUrl.search = ''
 
-  return NextResponse.redirect(new URL('/auth/sign-in', request.url))
+  return NextResponse.redirect(redirectUrl)
 }
